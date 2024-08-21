@@ -11,13 +11,13 @@ function App() {
         </p>
         <a
           className="App-link"
-          href="https://www.isscomercio.com.br/
+          href="https://www.isscomercio.com.br/"
           target="_blank"
-        rel="noopener noreferrer"
+          rel="noopener noreferrer"
         >
-        Antigo site
-      </a>
-    </header>
+          Antigo site
+        </a>
+      </header>
     </div >
   );
 }
