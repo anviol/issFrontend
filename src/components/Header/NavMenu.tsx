@@ -78,7 +78,7 @@ const NavMenuItem = ({
 	return (
 		<NavMenu.NavigationMenuItem
 			className={cn(
-				'group relative border-none py-2 font-semibold hover:border-none focus:outline-none',
+				'group relative border-none py-2 hover:border-none focus:outline-none',
 				className,
 			)}
 			{...props}

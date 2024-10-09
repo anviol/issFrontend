@@ -7,6 +7,7 @@ import {
 	CarouselItem,
 	FadePlugin,
 	AutoplayPlugin,
+	Dots,
 } from '@/components/ui/carousel';
 import Image from 'next/image';
 
@@ -20,18 +21,20 @@ const HomeCarousel = () => {
 			}}
 		>
 			<CarouselContent>
-				{Array.from({ length: 5 }).map((_, index) => (
+				{Array.from({ length: 3 }).map((_, index) => (
 					<CarouselItem key={index}>
 						<Image
 							width={1920}
 							height={1080}
 							src="https://www.isscomercio.com.br/images/banner/slide-001-7.jpg"
 							alt="Image printer"
-							className="w-svw object-contain"
+							className="h-svh w-svw object-cover"
 						/>
 					</CarouselItem>
 				))}
 			</CarouselContent>
+
+			<Dots className="absolute bottom-[calc(8rem_+_8svw)] left-1/2 -translate-x-1/2" />
 		</Carousel>
 	);
 };

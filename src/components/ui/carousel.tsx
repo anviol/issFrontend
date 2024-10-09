@@ -158,7 +158,6 @@ const CarouselContent = React.forwardRef<
 	React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => {
 	const { carouselRef, orientation } = useCarousel();
-
 	return (
 		<div ref={carouselRef} className="overflow-hidden">
 			<div
@@ -255,6 +254,66 @@ const CarouselNext = React.forwardRef<
 });
 CarouselNext.displayName = 'CarouselNext';
 
+type DotsProps = React.ComponentPropsWithRef<'button'> & {
+	dotClassName?: string;
+};
+
+const Dots: React.FC<DotsProps> = (props) => {
+	const { children, className, dotClassName, ...restProps } = props;
+	const { api: emblaApi } = useCarousel();
+	const [selectedIndex, setSelectedIndex] = React.useState(0);
+	const [scrollSnaps, setScrollSnaps] = React.useState<number[]>([]);
+
+	const onDotsClick = React.useCallback(
+		(index: number) => {
+			if (!emblaApi) return;
+			emblaApi.scrollTo(index);
+		},
+		[emblaApi],
+	);
+
+	const onInit = React.useCallback((emblaApi: CarouselApi) => {
+		if (emblaApi) {
+			setScrollSnaps(emblaApi.scrollSnapList());
+		}
+	}, []);
+
+	const onSelect = React.useCallback((emblaApi: CarouselApi) => {
+		if (emblaApi) {
+			setSelectedIndex(emblaApi.selectedScrollSnap());
+		}
+	}, []);
+
+	React.useEffect(() => {
+		if (!emblaApi) return;
+
+		onInit(emblaApi);
+		onSelect(emblaApi);
+		emblaApi.on('reInit', onInit).on('reInit', onSelect).on('select', onSelect);
+	}, [emblaApi, onInit, onSelect]);
+
+	return (
+		<ul className={cn('flex gap-2', className)}>
+			{scrollSnaps.map((_, index) => (
+				<li key={String(index)}>
+					<button
+						type="button"
+						data-current={selectedIndex === index ? 'true' : 'false'}
+						className={cn(
+							'cursor-pointer rounded-md border border-issYellow p-0.5 px-3 transition-colors duration-500 data-[current=true]:bg-issYellow',
+							dotClassName,
+						)}
+						onClick={() => onDotsClick(index)}
+						{...restProps}
+					>
+						{children}
+					</button>
+				</li>
+			))}
+		</ul>
+	);
+};
+
 export {
 	type CarouselApi,
 	Carousel,
@@ -262,4 +321,5 @@ export {
 	CarouselItem,
 	CarouselPrevious,
 	CarouselNext,
+	Dots,
 };
