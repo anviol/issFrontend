@@ -9,6 +9,9 @@ const config: Config = {
 	],
 	theme: {
 		extend: {
+			maxWidth: {
+				page: 'min(1200px,95%)',
+			},
 			colors: {
 				issYellow: '#ff9800',
 				background: 'hsl(var(--background))',

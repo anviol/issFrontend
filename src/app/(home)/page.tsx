@@ -1,10 +1,12 @@
 import { HomeCarousel } from './_components/HomeCarousel';
+import { Products } from './_components/Products';
+import { Section } from './_components/Section';
 import { WaveDivide } from './_components/WaveDivide';
 import { InstagramFeed } from '@/components/InstagramFeed';
 
 export default function Home() {
 	return (
-		<main className="flex flex-col justify-center">
+		<main className="flex flex-col">
 			<div className="relative w-full">
 				<HomeCarousel />
 				<div className="absolute bottom-1/2 flex w-full justify-center">
@@ -18,9 +20,15 @@ export default function Home() {
 				<WaveDivide className="absolute -bottom-1 z-10 h-[calc(1rem_+_8svw)] w-full" />
 			</div>
 
-			{/* <div className="h-[900px] w-full border">
-				<InstagramFeed />
-			</div> */}
+			<Section title="Destaques">
+				<Products />
+			</Section>
+
+			<div className="mt-44 py-20">
+				<Section title="Acompanhe a ISS nas redes sociais">
+					<InstagramFeed />
+				</Section>
+			</div>
 		</main>
 	);
 }
