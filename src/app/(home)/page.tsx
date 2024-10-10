@@ -1,3 +1,5 @@
+import { Advantages } from './_components/Advantages';
+import { CalendarEvents } from './_components/CalendarEvents';
 import { HomeCarousel } from './_components/HomeCarousel';
 import { Products } from './_components/Products';
 import { Section } from './_components/Section';
@@ -20,15 +22,19 @@ export default function Home() {
 				<WaveDivide className="absolute -bottom-1 z-10 h-[calc(1rem_+_8svw)] w-full" />
 			</div>
 
+			<Section title="Acompanhe a ISS nas redes sociais">
+				<InstagramFeed />
+			</Section>
+
+			<div className="bg-gray-200">
+				<Section title="Próximos eventos">
+					<CalendarEvents />
+				</Section>
+			</div>
+
 			<Section title="Destaques">
 				<Products />
 			</Section>
-
-			<div className="mt-44 py-20">
-				<Section title="Acompanhe a ISS nas redes sociais">
-					<InstagramFeed />
-				</Section>
-			</div>
 		</main>
 	);
 }

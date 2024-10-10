@@ -3,7 +3,7 @@ import { Embed } from './Embed';
 
 type InstagramMedia = {
 	id: string;
-	permalink: string;
+	url: string;
 };
 
 const InstagramFeed = async () => {
@@ -20,9 +20,13 @@ const InstagramFeed = async () => {
 				{data.map((item) => (
 					<CarouselItem
 						key={String(item.id)}
-						className="w-full max-w-full py-1 sm:max-w-[50%] lg:max-w-[33%]"
+						className="w-full max-w-full sm:max-w-[50%] lg:max-w-[33%]"
 					>
-						<Embed url={item.url} captioned={false} />
+						<div className='mx-auto lg:max-w-[350px]'>
+							<div className='overflow-hidden border rounded-xl'>
+								<Embed url={item.url} captioned={false} className='-mt-[55px] -mb-[56px] -mr-1 -ml-1' />
+							</div>
+						</div>
 					</CarouselItem>
 				))}
 			</CarouselContent>
@@ -31,7 +35,7 @@ const InstagramFeed = async () => {
 	);
 };
 
-const getData = async (): Promise<{ id: string; url: string }[]> => {
+const getData = async (): Promise<InstagramMedia[]> => {
 	try {
 		// const fields = 'id,permalink';
 
