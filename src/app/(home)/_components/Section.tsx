@@ -8,8 +8,8 @@ type Props = {
 
 const Section = ({ title, children, className }: Props) => {
 	return (
-		<div className={twMerge('max-w-page mx-auto w-full py-28', className)}>
-			<h2 className="mb-10 text-2xl font-semibold">{title}</h2>
+		<div className={twMerge('mx-auto w-full max-w-page py-32', className)}>
+			<h2 className="mb-16 text-4xl font-semibold">{title}</h2>
 			{children}
 		</div>
 	);

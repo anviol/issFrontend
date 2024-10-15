@@ -22,7 +22,10 @@ const HomeCarousel = () => {
 		>
 			<CarouselContent>
 				{Array.from({ length: 3 }).map((_, index) => (
-					<CarouselItem key={index}>
+					<CarouselItem
+						key={index}
+						className="relative before:absolute before:inset-0 before:bg-black/40"
+					>
 						<Image
 							width={1920}
 							height={1080}

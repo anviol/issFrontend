@@ -22,9 +22,13 @@ const InstagramFeed = async () => {
 						key={String(item.id)}
 						className="w-full max-w-full sm:max-w-[50%] lg:max-w-[33%]"
 					>
-						<div className='mx-auto lg:max-w-[350px]'>
-							<div className='overflow-hidden border rounded-xl'>
-								<Embed url={item.url} captioned={false} className='-mt-[55px] -mb-[56px] -mr-1 -ml-1' />
+						<div className="mx-auto lg:max-w-[350px]">
+							<div className="overflow-hidden rounded-xl border">
+								<Embed
+									url={item.url}
+									captioned={false}
+									className="-mb-[56px] -ml-1 -mr-1 -mt-[55px]"
+								/>
 							</div>
 						</div>
 					</CarouselItem>
