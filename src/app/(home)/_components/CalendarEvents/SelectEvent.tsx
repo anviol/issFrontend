@@ -46,7 +46,7 @@ const SelectEvent = ({ data }: { data: TEvent[] }) => {
 				/>
 				<Link
 					href="#"
-					className="my-auto flex items-center justify-center rounded-full border-2 border-gray-500 p-2 px-12 text-lg text-gray-600 md:hidden"
+					className="my-auto hidden sm:flex items-center justify-center rounded-full border-2 border-gray-500 p-2 px-12 text-lg text-gray-600 md:hidden"
 					title="Ver todos os eventos"
 				>
 					Ver evento
@@ -69,7 +69,7 @@ const SelectEvent = ({ data }: { data: TEvent[] }) => {
 						{selectedEvent.time}
 					</CardDescription>
 					<CardDescription className="flex items-center gap-2">
-						<MapPin />
+						<MapPin className='min-w-6' />
 						{selectedEvent.locale}
 					</CardDescription>
 				</CardFooter>
@@ -77,10 +77,11 @@ const SelectEvent = ({ data }: { data: TEvent[] }) => {
 
 			<Link
 				href="#"
-				className="my-auto hidden w-min items-center justify-center rounded-full border-2 border-gray-500 md:flex"
+				className="my-auto flex sm:hidden sm:w-min items-center justify-center rounded-full border-2 border-gray-500 md:flex"
 				title="Ver todos os eventos"
 			>
-				<ChevronRight className="h-11 w-11 stroke-1 text-gray-500" />
+				<span className='sm:hidden p-2 text-lg'>Ver evento</span>
+				<ChevronRight className="h-11 w-11 stroke-1 sm:block hidden text-gray-500" />
 			</Link>
 		</div>
 	);

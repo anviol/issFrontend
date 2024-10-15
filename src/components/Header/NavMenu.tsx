@@ -18,7 +18,7 @@ export function NavigationMenu() {
 					</NavMenu.NavigationMenuTrigger>
 
 					<NavMenu.NavigationMenuContent className="absolute -left-1 mt-2 rounded-md bg-slate-400">
-						<ul className="flex gap-3 p-4 md:w-[400px] lg:w-[600px]">
+						<ul className="flex gap-3 p-4 md:w-[400px] lg:w-[800px]">
 							<li className="row-span-3 flex-1">
 								<NavMenu.NavigationMenuLink asChild>
 									<a

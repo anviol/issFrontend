@@ -13,9 +13,7 @@ const CalendarEvents = async () => {
 	const data = await getDate();
 
 	return (
-		<div>
-			<SelectEvent data={data} />
-		</div>
+		<SelectEvent data={data} />
 	);
 };
 

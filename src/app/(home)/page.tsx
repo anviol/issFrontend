@@ -39,17 +39,17 @@ export default function Home() {
 				<AboutUs />
 			</Section>
 
-			{/* <div className="bg-gray-200">
+			<div className="bg-gray-100">
 				<Section title="Nosso diferencial">
 					<Advantages />
 				</Section>
-			</div> */}
+			</div>
 
 			<Section title="Destaques">
 				<Products />
 			</Section>
 
-			<div className="bg-gray-200">
+			<div className="bg-gray-100">
 				<Section title="Próximos eventos">
 					<CalendarEvents />
 				</Section>
