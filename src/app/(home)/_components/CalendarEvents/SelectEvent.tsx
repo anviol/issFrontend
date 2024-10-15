@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { isEqual, startOfDay } from 'date-fns';
-import { ChevronRightCircle, Clock, MapPin } from 'lucide-react';
+import { ChevronRight, Clock, MapPin } from 'lucide-react';
 
 import { Calendar } from '@/components/ui/calendar';
 import { TEvent } from '.';
@@ -33,18 +33,27 @@ const SelectEvent = ({ data }: { data: TEvent[] }) => {
 	);
 
 	return (
-		<div className="flex gap-8">
-			<Calendar
-				mode="single"
-				modifiers={{
-					booked: data.map((e) => e.date),
-				}}
-				selected={selectedEvent.date}
-				onSelect={handleSelectEvent}
-				className="w-min rounded-md bg-white shadow-lg h-min"
-			/>
+		<div className="flex flex-col gap-8 md:flex-row">
+			<div className="flex flex-col justify-around gap-8 sm:flex-row">
+				<Calendar
+					mode="single"
+					modifiers={{
+						booked: data.map((e) => e.date),
+					}}
+					selected={selectedEvent.date}
+					onSelect={handleSelectEvent}
+					className="h-min rounded-md bg-white shadow-lg sm:w-min"
+				/>
+				<Link
+					href="#"
+					className="my-auto flex items-center justify-center rounded-full border-2 border-gray-500 p-2 px-12 text-lg text-gray-600 md:hidden"
+					title="Ver todos os eventos"
+				>
+					Ver evento
+				</Link>
+			</div>
 
-			<Card className="flex flex-col shadow-lg">
+			<Card className="flex flex-col shadow-lg md:order-none">
 				<CardHeader>
 					<CardTitle>{selectedEvent.title}</CardTitle>
 				</CardHeader>
@@ -66,8 +75,12 @@ const SelectEvent = ({ data }: { data: TEvent[] }) => {
 				</CardFooter>
 			</Card>
 
-			<Link href="#" className="my-auto" title="Ver todos os eventos">
-				<ChevronRightCircle className="h-11 w-11 stroke-1 text-gray-500" />
+			<Link
+				href="#"
+				className="my-auto hidden w-min items-center justify-center rounded-full border-2 border-gray-500 md:flex"
+				title="Ver todos os eventos"
+			>
+				<ChevronRight className="h-11 w-11 stroke-1 text-gray-500" />
 			</Link>
 		</div>
 	);

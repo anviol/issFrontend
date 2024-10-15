@@ -12,6 +12,9 @@ const config: Config = {
 			maxWidth: {
 				page: 'min(1200px,95%)',
 			},
+			screens: {
+				xsm: '450px',
+			},
 			colors: {
 				issYellow: '#fbba16',
 				background: 'hsl(var(--background))',

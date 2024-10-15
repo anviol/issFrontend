@@ -21,7 +21,7 @@ const Products = async () => {
 	const data = await getData();
 
 	return (
-		<div className="grid max-w-full grid-cols-4 gap-4">
+		<div className="grid max-w-full grid-cols-1 gap-4 xsm:grid-cols-2 md:grid-cols-4">
 			{data.map((item) => (
 				<Link href="#" key={item.id}>
 					<ProductCard data={item} />
@@ -47,7 +47,7 @@ function ProductCard({ data }: { data: TProduct }) {
 				/>
 			</CardContent>
 			<CardFooter>
-				<CardDescription>
+				<CardDescription className="max-w-full break-words">
 					<strong className="mb-2 inline-block">
 						Tipo: <span className="font-normal">{data.category}</span>
 					</strong>

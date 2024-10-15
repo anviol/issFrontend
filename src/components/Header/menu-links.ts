@@ -5,7 +5,7 @@ export const extraLinks: { title: string; href: string; id: string }[] = [
 		id: '2',
 	},
 	{
-		title: 'Boleto',
+		title: 'Boletos',
 		href: '/',
 		id: '3',
 	},
