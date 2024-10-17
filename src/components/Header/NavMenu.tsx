@@ -3,6 +3,7 @@ import Link, { LinkProps } from 'next/link';
 import * as NavMenu from '@radix-ui/react-navigation-menu';
 import { cn } from '@/lib/utils';
 import { extraLinks } from './menu-links';
+import { Brand4P, BrandMimaki } from './MenuProductArea';
 
 export function NavigationMenu() {
 	return (
@@ -17,43 +18,13 @@ export function NavigationMenu() {
 						<div className="skew-x-12">Produtos</div>
 					</NavMenu.NavigationMenuTrigger>
 
-					<NavMenu.NavigationMenuContent className="absolute -left-1 mt-2 rounded-md bg-slate-400">
-						<ul className="flex gap-3 p-4 md:w-[400px] lg:w-[800px]">
-							<li className="row-span-3 flex-1">
-								<NavMenu.NavigationMenuLink asChild>
-									<a
-										className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-										href="/"
-									>
-										<div className="mb-2 mt-4 text-lg font-medium text-black">
-											Mimaki
-										</div>
-										<p className="text-sm leading-tight text-muted-foreground">
-											Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-											Dolores quaerat accusantium adipisci a maxime incidunt
-											corrupti ipsam architecto dolore nostrum, totam eius enim
-											fuga unde tempora? Dicta repellendus blanditiis magni.
-										</p>
-									</a>
-								</NavMenu.NavigationMenuLink>
+					<NavMenu.NavigationMenuContent className="absolute -left-1 mt-7 overflow-hidden rounded-md bg-white">
+						<ul className="flex w-[600px] flex-col divide-y p-0">
+							<li className="flex-1">
+								<BrandMimaki />
 							</li>
-							<li className="row-span-3 flex-1">
-								<NavMenu.NavigationMenuLink asChild>
-									<a
-										className="flex h-full w-full select-none flex-col justify-start rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-										href="/"
-									>
-										<div className="mb-2 mt-4 text-lg font-medium text-black">
-											4P
-										</div>
-										<p className="text-sm leading-tight text-muted-foreground">
-											Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-											Dolores quaerat accusantium adipisci a maxime incidunt
-											corrupti ipsam architecto dolore nostrum, totam eius enim
-											fuga unde tempora? Dicta repellendus blanditiis magni.
-										</p>
-									</a>
-								</NavMenu.NavigationMenuLink>
+							<li className="flex-1">
+								<Brand4P />
 							</li>
 						</ul>
 					</NavMenu.NavigationMenuContent>

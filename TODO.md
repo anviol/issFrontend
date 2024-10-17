@@ -1,0 +1,1 @@
+* Remover lupa de pesquisa

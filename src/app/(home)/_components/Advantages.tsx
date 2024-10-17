@@ -3,11 +3,11 @@ import { twMerge } from 'tailwind-merge';
 const Advantages = () => {
 	return (
 		<div className="flex flex-col items-start gap-y-12 sm:gap-y-0">
-			<div className="flex items-center justify-center flex-col sm:flex-row gap-x-10">
+			<div className="flex flex-col items-center justify-center gap-x-10 sm:flex-row">
 				<img
 					src={'/assets/drawings/savings.svg'}
 					alt="Preços diferenciado"
-					className='h-[220px] w-[160px] sm:w-[220px]'
+					className="h-[220px] w-[160px] sm:w-[220px]"
 				/>
 				<div className="max-w-[600px]">
 					<Title>Preço</Title>
@@ -18,7 +18,7 @@ const Advantages = () => {
 				</div>
 			</div>
 
-			<div className="ml-auto flex flex-col sm:flex-row items-center justify-center gap-x-10">
+			<div className="ml-auto flex flex-col items-center justify-center gap-x-10 sm:flex-row">
 				<div className="max-w-[600px]">
 					<Title className="sm:text-right">Suporte ao Cliente</Title>
 					<Content>
@@ -30,15 +30,15 @@ const Advantages = () => {
 				<img
 					src={'/assets/drawings/connecting_teams.svg'}
 					alt="Suporte ao Cliente"
-					className='h-[300px] w-[220px] sm:w-[300px] -order-1 sm:order-none'
+					className="-order-1 h-[300px] w-[220px] sm:order-none sm:w-[300px]"
 				/>
 			</div>
 
-			<div className="flex items-center justify-center gap-x-8 flex-col sm:flex-row">
+			<div className="flex flex-col items-center justify-center gap-x-8 sm:flex-row">
 				<img
 					src={'/assets/drawings/printing.svg'}
 					alt="Produtos Importados"
-					className='h-[300px] w-[300px]'
+					className="h-[300px] w-[300px]"
 				/>
 				<div className="max-w-[600px]">
 					<Title>Produtos Importados</Title>
@@ -60,7 +60,12 @@ function Title({
 	className?: string;
 }) {
 	return (
-		<h4 className={twMerge('my-5 text-2xl sm:text-3xl font-semibold text-center sm:text-left', className)}>
+		<h4
+			className={twMerge(
+				'my-5 text-center text-2xl font-semibold sm:text-left',
+				className,
+			)}
+		>
 			{children}
 		</h4>
 	);
@@ -74,9 +79,14 @@ function Content({
 	className?: string;
 }) {
 	return (
-		<p className={twMerge("px-2 text-center sm:text-justify leading-7", className)}>
+		<p
+			className={twMerge(
+				'px-2 text-center leading-7 sm:text-justify',
+				className,
+			)}
+		>
 			{children}
-		</p >
+		</p>
 	);
 }
 export { Advantages };

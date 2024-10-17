@@ -55,9 +55,11 @@ export default function Home() {
 				</Section>
 			</div>
 
-			<Section title="Acompanhe a ISS nas redes sociais">
-				<InstagramFeed />
-			</Section>
+			<div className="bg-gray-100">
+				<Section title="Acompanhe a ISS nas redes sociais">
+					<InstagramFeed />
+				</Section>
+			</div>
 		</main>
 	);
 }

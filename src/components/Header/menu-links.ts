@@ -11,7 +11,7 @@ export const extraLinks: { title: string; href: string; id: string }[] = [
 	},
 	{
 		title: 'Sobre nós',
-		href: '/',
+		href: '/sobre',
 		id: '1',
 	},
 	{
