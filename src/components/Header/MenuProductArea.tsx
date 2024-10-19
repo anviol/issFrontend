@@ -4,17 +4,30 @@ type ProductAreaProps = {
 	title: string;
 	href: string;
 	imageUrl?: string;
+	children?: React.ReactNode;
 };
 
 export const BrandMimaki = () => (
-	<ProductArea title="Mimaki" href="#" imageUrl="/assets/logo_mimaki.svg" />
+	<ProductArea title="Mimaki" href="#" imageUrl="/assets/logo_mimaki.svg">
+		As Impressoras a jato de tinta de grandes formatos, oferecem versatilidade e
+		variedade de aplicações para expandir o seu negócio.
+	</ProductArea>
 );
 
 export const Brand4P = () => (
-	<ProductArea title="4P" href="#" imageUrl="/assets/4P.png" />
+	<ProductArea title="4P" href="#" imageUrl="/assets/4P.svg">
+		Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nisi atque, ab
+		soluta non, minus ipsam nobis eius labore veritatis eum quidem laboriosam
+		rem repudiandae
+	</ProductArea>
 );
 
-export const ProductArea = ({ title, href, imageUrl }: ProductAreaProps) => {
+export const ProductArea = ({
+	title,
+	href,
+	imageUrl,
+	children,
+}: ProductAreaProps) => {
 	return (
 		<NavMenu.NavigationMenuLink asChild>
 			<a
@@ -28,11 +41,7 @@ export const ProductArea = ({ title, href, imageUrl }: ProductAreaProps) => {
 				/>
 				<div>
 					<span className="font-semibold text-black">{title}</span>
-					<p className="text-justify text-sm text-black">
-						Lorem ipsum, dolor sit amet consectetur adipisicing elit. Error,
-						itaque quod dolorum aut vero quo eaque animi, nesciunt officiis
-						distinctio architecto.
-					</p>
+					<p className="text-justify text-sm text-black">{children}</p>
 				</div>
 			</a>
 		</NavMenu.NavigationMenuLink>

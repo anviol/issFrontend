@@ -17,6 +17,7 @@ const config: Config = {
 			},
 			colors: {
 				issYellow: '#fbba16',
+				pageBgGray: '#f3f4f6',
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
 				card: {

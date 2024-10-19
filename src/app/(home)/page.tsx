@@ -39,7 +39,7 @@ export default function Home() {
 				<AboutUs />
 			</Section>
 
-			<div className="bg-gray-100">
+			<div className="bg-pageBgGray">
 				<Section title="Nosso diferencial">
 					<Advantages />
 				</Section>
@@ -49,13 +49,13 @@ export default function Home() {
 				<Products />
 			</Section>
 
-			<div className="bg-gray-100">
+			<div className="bg-pageBgGray">
 				<Section title="Próximos eventos">
 					<CalendarEvents />
 				</Section>
 			</div>
 
-			<div className="bg-gray-100">
+			<div className="bg-pageBgGray">
 				<Section title="Acompanhe a ISS nas redes sociais">
 					<InstagramFeed />
 				</Section>

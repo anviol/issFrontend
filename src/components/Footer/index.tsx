@@ -23,7 +23,7 @@ const Footer = async () => {
 					<Image
 						width={1024}
 						height={1024}
-						src="/assets/mmk iss.png"
+						src="/assets/ISS MMK(Branca).svg"
 						alt="Lôgo ISS"
 						className="aspect-square w-52 object-contain"
 					/>
