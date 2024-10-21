@@ -17,8 +17,8 @@ const Footer = async () => {
 	const { address, contacts } = await getContacts();
 
 	return (
-		<div className="flex flex-col bg-foreground p-10 pt-16 text-white">
-			<div className="mx-auto flex w-full max-w-page flex-col items-center justify-between gap-16 md:flex-row">
+		<div className="flex flex-col bg-foreground p-10 text-white">
+			<div className="mx-auto flex w-full max-w-page flex-col items-center justify-between gap-16 py-10 md:flex-row">
 				<div>
 					<Image
 						width={1024}
@@ -63,7 +63,7 @@ const Footer = async () => {
 
 			<Separator className="my-10 mb-5 opacity-50" />
 
-			<div className="mx-auto mb-4 flex items-center space-x-2 text-center text-sm text-white">
+			<div className="mx-auto my-4 flex items-center space-x-2 text-center text-sm text-white">
 				<Link href="#" className="opacity-60 hover:underline hover:opacity-90">
 					Termos de Uso
 				</Link>

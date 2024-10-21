@@ -49,22 +49,20 @@ function Calendar({
 					buttonVariants({ variant: 'ghost' }),
 					'h-9 w-9 p-0 font-normal aria-selected:opacity-100 aria-selected:bg-issYellow text-base aria-selected:font-semibold',
 				),
-				day_range_start: 'day-range-start',
-				day_range_end: 'day-range-end',
-				day_selected:
-					'bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground',
-				day_today: 'bg-blue-100 text-accent-foreground',
+				day_range_start: 'day-range-start rounded-tr-none rounded-br-none',
+				day_range_end: 'day-range-end rounded-tl-none rounded-bl-none',
+				day_selected: 'bg-primary hover:bg-primary focus:bg-primary',
 				day_outside:
 					'day-outside text-muted-foreground opacity-50  aria-selected:bg-accent/50 aria-selected:text-muted-foreground aria-selected:opacity-30',
 				day_disabled: 'text-muted-foreground opacity-50',
 				day_range_middle:
-					'aria-selected:bg-accent aria-selected:text-accent-foreground',
+					'aria-selected:bg-issYellow/10 border-t-2 border-b-2 border-issYellow aria-selected:text-accent-foreground rounded-none ',
 				day_hidden: 'invisible',
 				...classNames,
 			}}
 			components={{
-				IconLeft: ({ ...props }) => <ChevronLeftIcon className="h-4 w-4" />,
-				IconRight: ({ ...props }) => <ChevronRightIcon className="h-4 w-4" />,
+				IconLeft: ({ ...props }) => <ChevronLeftIcon className="h-6 w-6" />,
+				IconRight: ({ ...props }) => <ChevronRightIcon className="h-6 w-6" />,
 			}}
 			{...props}
 		/>

@@ -1,12 +1,13 @@
 'use client';
+import React, { useCallback, useState } from 'react';
 import Link from 'next/link';
-import { isEqual, startOfDay } from 'date-fns';
+import { isEqual, startOfDay, closestTo, isAfter } from 'date-fns';
+
 import { ChevronRight, Clock, MapPin } from 'lucide-react';
+import { SelectRangeEventHandler } from 'react-day-picker';
 
 import { Calendar } from '@/components/ui/calendar';
 import { TEvent } from '.';
-import { useCallback, useState } from 'react';
-import { SelectSingleEventHandler } from 'react-day-picker';
 import {
 	Card,
 	CardContent,
@@ -16,14 +17,28 @@ import {
 	CardTitle,
 } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import { Countdown } from '@/components/FlipTimer';
 
 const SelectEvent = ({ data }: { data: TEvent[] }) => {
-	const [selectedEvent, setSelectedEvent] = useState(data[0]);
+	const [selectedEvent, setSelectedEvent] = useState(
+		data.find(({ dataInicio }) => {
+			const closest = closestTo(
+				new Date(),
+				data
+					.filter((e) => isAfter(e.dataFim, new Date()))
+					.map((e) => e.dataInicio),
+			);
 
-	const handleSelectEvent: SelectSingleEventHandler = useCallback(
-		(day) => {
-			if (!day) return;
-			const event = data.find(({ date }) => isEqual(day, startOfDay(date)));
+			return closest && isEqual(dataInicio, closest);
+		}) || data[0],
+	);
+
+	const handleSelectEvent: SelectRangeEventHandler = useCallback(
+		(_, selectedDay) => {
+			if (!selectedDay) return;
+			const event = data.find(({ dataInicio }) =>
+				isEqual(selectedDay, startOfDay(dataInicio)),
+			);
 
 			if (event) {
 				setSelectedEvent(event);
@@ -33,24 +48,23 @@ const SelectEvent = ({ data }: { data: TEvent[] }) => {
 	);
 
 	return (
-		<div className="flex flex-col gap-8 md:flex-row">
-			<div className="flex flex-col justify-around gap-8 sm:flex-row">
+		<div className="flex flex-col items-start gap-8 md:flex-row">
+			<div className="flex w-full flex-wrap items-center justify-center gap-8 md:flex-col">
 				<Calendar
-					mode="single"
+					mode="range"
 					modifiers={{
-						booked: data.map((e) => e.date),
+						booked: data.map((e) => e.dataInicio),
 					}}
-					selected={selectedEvent.date}
+					selected={{
+						from: selectedEvent.dataInicio,
+						to: selectedEvent.dataFim,
+					}}
 					onSelect={handleSelectEvent}
-					className="h-min rounded-md bg-white shadow-lg sm:w-min"
+					className="h-min w-full rounded-md bg-white shadow-lg sm:w-min"
 				/>
-				<Link
-					href="#"
-					className="my-auto hidden sm:flex items-center justify-center rounded-full border-2 border-gray-500 p-2 px-12 text-lg text-gray-600 md:hidden"
-					title="Ver todos os eventos"
-				>
-					Ver evento
-				</Link>
+				<div className="space-y-6">
+					<Countdown target={selectedEvent.dataInicio} />
+				</div>
 			</div>
 
 			<Card className="flex flex-col shadow-lg md:order-none">
@@ -69,7 +83,7 @@ const SelectEvent = ({ data }: { data: TEvent[] }) => {
 						{selectedEvent.time}
 					</CardDescription>
 					<CardDescription className="flex items-center gap-2">
-						<MapPin className='min-w-6' />
+						<MapPin className="min-w-6" />
 						{selectedEvent.locale}
 					</CardDescription>
 				</CardFooter>
@@ -77,11 +91,11 @@ const SelectEvent = ({ data }: { data: TEvent[] }) => {
 
 			<Link
 				href="#"
-				className="my-auto flex sm:hidden sm:w-min items-center justify-center rounded-full border-2 border-gray-500 md:flex"
+				className="my-auto flex w-full items-center justify-center rounded-full border-2 border-gray-500 md:flex md:w-min"
 				title="Ver todos os eventos"
 			>
-				<span className='sm:hidden p-2 text-lg'>Ver evento</span>
-				<ChevronRight className="h-11 w-11 stroke-1 sm:block hidden text-gray-500" />
+				<span className="p-2 text-lg md:hidden">Ver evento</span>
+				<ChevronRight className="hidden h-11 w-11 stroke-1 text-gray-500 md:block" />
 			</Link>
 		</div>
 	);

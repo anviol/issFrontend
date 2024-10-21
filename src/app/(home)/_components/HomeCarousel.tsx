@@ -31,7 +31,7 @@ const HomeCarousel = () => {
 							height={1080}
 							src="https://www.isscomercio.com.br/images/banner/slide-001-7.jpg"
 							alt="Image printer"
-							className="h-svh w-svw object-cover"
+							className="h-[95svh] w-svw object-cover"
 						/>
 					</CarouselItem>
 				))}
