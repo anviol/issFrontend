@@ -1,3 +1,4 @@
+import { MoreButton } from '@/components/MoreButton';
 import {
 	Card,
 	CardTitle,
@@ -27,6 +28,11 @@ const Products = async () => {
 					<ProductCard data={item} />
 				</Link>
 			))}
+			<MoreButton
+				href="/sobre"
+				className="mt-auto"
+				title="Ver todos os produtos"
+			/>
 		</div>
 	);
 };

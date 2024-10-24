@@ -7,6 +7,7 @@ import { Products } from './_components/Products';
 import { Section } from './_components/Section';
 import { WaveDivide } from './_components/WaveDivide';
 import { InstagramFeed } from '@/components/InstagramFeed';
+import { ContactForm } from './_components/CalendarEvents/ContactForm';
 
 export default function Home() {
 	return (
@@ -22,7 +23,7 @@ export default function Home() {
 						</h1>
 
 						<Link
-							href={'#'}
+							href={'#entre-em-contato'}
 							className="group relative mx-auto mt-12 block w-min overflow-hidden rounded-md"
 						>
 							<div className="relative z-10 flex w-min items-center gap-3 whitespace-nowrap rounded-md border-2 p-6 py-3 pr-4 font-medium text-white transition-colors duration-200 hover:border-issYellow hover:text-black">
@@ -52,6 +53,15 @@ export default function Home() {
 			<div className="bg-pageBgGray">
 				<CalendarEvents />
 			</div>
+
+			<Section
+				id="entre-em-contato"
+				title="Entre em contato conosco"
+				className="relative"
+				jumpToClassName="-top-36 absolute"
+			>
+				<ContactForm />
+			</Section>
 
 			<div className="bg-pageBgGray">
 				<Section title="Acompanhe a ISS nas redes sociais">

@@ -49,7 +49,7 @@ const SelectEvent = ({ data }: { data: TEvent[] }) => {
 
 	return (
 		<div className="flex flex-col items-start gap-8 md:flex-row">
-			<div className="flex w-full flex-wrap items-center justify-center gap-8 md:flex-col">
+			<div className="flex w-full flex-wrap items-center justify-center gap-8 md:w-auto md:flex-col">
 				<Calendar
 					mode="range"
 					modifiers={{
@@ -67,7 +67,7 @@ const SelectEvent = ({ data }: { data: TEvent[] }) => {
 				</div>
 			</div>
 
-			<Card className="flex flex-col shadow-lg md:order-none">
+			<Card className="flex w-full flex-col shadow-lg md:order-none">
 				<CardHeader>
 					<CardTitle>{selectedEvent.title}</CardTitle>
 				</CardHeader>

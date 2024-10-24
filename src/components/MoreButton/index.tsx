@@ -4,8 +4,9 @@ import { twMerge } from 'tailwind-merge';
 
 type Props = LinkProps & {
 	className?: string;
+	title?: string;
 };
-const MoreButton = ({ className, ...props }: Props) => {
+const MoreButton = ({ className, title, ...props }: Props) => {
 	return (
 		<Link
 			{...props}
@@ -14,7 +15,7 @@ const MoreButton = ({ className, ...props }: Props) => {
 				className,
 			)}
 		>
-			Saiba mais
+			{title || 'Saiba mais'}
 			<ChevronRight className="h-5 w-5 text-gray-700" />
 		</Link>
 	);
