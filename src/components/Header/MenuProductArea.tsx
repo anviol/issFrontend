@@ -8,14 +8,18 @@ type ProductAreaProps = {
 };
 
 export const BrandMimaki = () => (
-	<ProductArea title="Mimaki" href="#" imageUrl="/assets/logo_mimaki.svg">
+	<ProductArea
+		title="Mimaki"
+		href="/produtos/Mimaki"
+		imageUrl="/assets/logo_mimaki.svg"
+	>
 		As Impressoras a jato de tinta de grandes formatos, oferecem versatilidade e
 		variedade de aplicações para expandir o seu negócio.
 	</ProductArea>
 );
 
 export const Brand4P = () => (
-	<ProductArea title="4P" href="#" imageUrl="/assets/4P.svg">
+	<ProductArea title="4P" href="/produtos/4P" imageUrl="/assets/4P.svg">
 		Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nisi atque, ab
 		soluta non, minus ipsam nobis eius labore veritatis eum quidem laboriosam
 		rem repudiandae

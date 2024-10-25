@@ -8,8 +8,8 @@ import { FooterSections } from './FooterSection';
 import { Separator } from '../ui/separator';
 
 const products = [
-	{ id: '1', title: 'Mimaki', href: '#' },
-	{ id: '2', title: '4P', href: '#' },
+	{ id: '1', title: 'Mimaki', href: '/produtos/Mimaki' },
+	{ id: '2', title: '4P', href: '/produtos/4P' },
 ];
 
 const Footer = async () => {
