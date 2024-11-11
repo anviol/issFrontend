@@ -29,7 +29,7 @@ const Products = async () => {
 				</Link>
 			))}
 			<MoreButton
-				href="/sobre"
+				href="/produtos/Mimaki"
 				className="mt-auto md:ml-8"
 				title="Ver todos os produtos"
 			/>
