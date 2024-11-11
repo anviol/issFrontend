@@ -7,11 +7,6 @@ import * as SocialIcons from '../SocialIcons';
 import { FooterSections } from './FooterSection';
 import { Separator } from '../ui/separator';
 
-const products = [
-	{ id: '1', title: 'Mimaki', href: '/produtos/Mimaki' },
-	{ id: '2', title: '4P', href: '/produtos/4P' },
-];
-
 const Footer = async () => {
 	const socials = await getSocials();
 	const { address, contacts } = await getContacts();
@@ -38,8 +33,14 @@ const Footer = async () => {
 					</ul>
 				</div>
 				<div className="flex w-full flex-col gap-8 md:max-w-[60%] md:flex-row md:justify-around">
-					<FooterSections title="Institucional" data={extraLinks} />
-					<FooterSections title="Produtos" data={products} />
+					<FooterSections
+						title="Institucional"
+						data={extraLinks.filter((e) => !e.isProductsLink)}
+					/>
+					<FooterSections
+						title="Produtos"
+						data={extraLinks.find((e) => e.isProductsLink)?.brands ?? []}
+					/>
 					<FooterSections
 						title="Contato"
 						data={contacts.map((contact) => ({

@@ -9,32 +9,34 @@ export function NavigationMenu() {
 	return (
 		<NavMenu.NavigationMenu className="z-300 hidden text-white md:block lg:text-lg">
 			<NavMenu.NavigationMenuList className="flex justify-center gap-2 px-4 min-[1200px]:gap-9 min-[1200px]:px-8">
-				<NavMenuLink href="/" legacyBehavior passHref>
-					Início
-				</NavMenuLink>
+				{extraLinks.map((item) => {
+					if (item?.isProductsLink) {
+						return (
+							<NavMenuItem key={item.id} className="relative py-0" noUnderline>
+								<NavMenu.NavigationMenuTrigger className="-skew-x-12 rounded bg-white px-4 py-2 text-black transition-colors hover:bg-issYellow">
+									<div className="skew-x-12">{item.title}</div>
+								</NavMenu.NavigationMenuTrigger>
 
-				<NavMenuItem className="relative py-0" noUnderline>
-					<NavMenu.NavigationMenuTrigger className="-skew-x-12 rounded bg-white px-4 py-2 text-black transition-colors hover:bg-issYellow">
-						<div className="skew-x-12">Produtos</div>
-					</NavMenu.NavigationMenuTrigger>
+								<NavMenu.NavigationMenuContent className="absolute -left-1 mt-7 overflow-hidden rounded-md bg-white [box-shadow:0_0_15px_4px_#00000040]">
+									<ul className="flex w-[600px] flex-col divide-y p-0">
+										<li className="flex-1">
+											<BrandMimaki />
+										</li>
+										<li className="flex-1">
+											<Brand4P />
+										</li>
+									</ul>
+								</NavMenu.NavigationMenuContent>
+							</NavMenuItem>
+						);
+					}
 
-					<NavMenu.NavigationMenuContent className="absolute -left-1 mt-7 overflow-hidden rounded-md bg-white [box-shadow:0_0_15px_4px_#00000040]">
-						<ul className="flex w-[600px] flex-col divide-y p-0">
-							<li className="flex-1">
-								<BrandMimaki />
-							</li>
-							<li className="flex-1">
-								<Brand4P />
-							</li>
-						</ul>
-					</NavMenu.NavigationMenuContent>
-				</NavMenuItem>
-
-				{extraLinks.map((item) => (
-					<NavMenuLink key={item.id} href={item.href} legacyBehavior passHref>
-						{item.title}
-					</NavMenuLink>
-				))}
+					return (
+						<NavMenuLink key={item.id} href={item.href} legacyBehavior passHref>
+							{item.title}
+						</NavMenuLink>
+					);
+				})}
 			</NavMenu.NavigationMenuList>
 		</NavMenu.NavigationMenu>
 	);

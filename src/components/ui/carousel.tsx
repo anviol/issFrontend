@@ -4,7 +4,7 @@ import * as React from 'react';
 export { default as FadePlugin } from 'embla-carousel-fade';
 export { default as AutoplayPlugin } from 'embla-carousel-autoplay';
 
-import { ArrowLeftIcon, ArrowRightIcon } from '@radix-ui/react-icons';
+import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 import useEmblaCarousel, {
 	type UseEmblaCarouselType,
 } from 'embla-carousel-react';
@@ -17,11 +17,17 @@ type UseCarouselParameters = Parameters<typeof useEmblaCarousel>;
 type CarouselOptions = UseCarouselParameters[0];
 type CarouselPlugin = UseCarouselParameters[1];
 
+type ThumbButton = React.ReactElement<
+	React.ButtonHTMLAttributes<HTMLButtonElement>
+>;
+
 type CarouselProps = {
 	opts?: CarouselOptions;
 	plugins?: CarouselPlugin;
 	orientation?: 'horizontal' | 'vertical';
 	setApi?: (api: CarouselApi) => void;
+	thumbs?: ThumbButton[];
+	thumbsClassName?: string;
 };
 
 type CarouselContextProps = {
@@ -57,6 +63,8 @@ const Carousel = React.forwardRef<
 			plugins,
 			className,
 			children,
+			thumbs,
+			thumbsClassName,
 			...props
 		},
 		ref,
@@ -147,6 +155,12 @@ const Carousel = React.forwardRef<
 				>
 					{children}
 				</div>
+
+				{thumbs && (
+					<Thumb className={thumbsClassName} emblaMainApi={api}>
+						{thumbs}
+					</Thumb>
+				)}
 			</CarouselContext.Provider>
 		);
 	},
@@ -208,9 +222,9 @@ const CarouselPrevious = React.forwardRef<
 			variant={variant}
 			size={size}
 			className={cn(
-				'absolute h-8 w-8 rounded-full',
+				'absolute rounded-full p-2',
 				orientation === 'horizontal'
-					? '-left-12 top-1/2 -translate-y-1/2'
+					? `${size === 'lg' ? '-left-16' : '-left-12'} top-1/2 -translate-y-1/2`
 					: '-top-12 left-1/2 -translate-x-1/2 rotate-90',
 				className,
 			)}
@@ -218,8 +232,8 @@ const CarouselPrevious = React.forwardRef<
 			onClick={scrollPrev}
 			{...props}
 		>
-			<ArrowLeftIcon className="h-4 w-4" />
-			<span className="sr-only">Previous slide</span>
+			<ChevronLeftIcon className="min-h-8 min-w-8" />
+			<span className="sr-only">Slide anterior</span>
 		</Button>
 	);
 });
@@ -237,9 +251,9 @@ const CarouselNext = React.forwardRef<
 			variant={variant}
 			size={size}
 			className={cn(
-				'absolute h-8 w-8 rounded-full',
+				'absolute rounded-full p-2',
 				orientation === 'horizontal'
-					? '-right-12 top-1/2 -translate-y-1/2'
+					? `${size === 'lg' ? '-right-16' : '-right-12'} top-1/2 -translate-y-1/2`
 					: '-bottom-12 left-1/2 -translate-x-1/2 rotate-90',
 				className,
 			)}
@@ -247,8 +261,8 @@ const CarouselNext = React.forwardRef<
 			onClick={scrollNext}
 			{...props}
 		>
-			<ArrowRightIcon className="h-4 w-4" />
-			<span className="sr-only">Next slide</span>
+			<ChevronRightIcon className="min-h-8 min-w-8" />
+			<span className="sr-only">Próximo slide</span>
 		</Button>
 	);
 });
@@ -300,7 +314,7 @@ const Dots: React.FC<DotsProps> = (props) => {
 						type="button"
 						data-current={selectedIndex === index ? 'true' : 'false'}
 						className={cn(
-							'cursor-pointer rounded-md border border-issYellow p-0.5 px-3 transition-colors duration-500 data-[current=true]:bg-issYellow',
+							'cursor-pointer rounded-md border border-issYellow p-1 px-3 transition-colors duration-500 data-[current=true]:bg-issYellow',
 							dotClassName,
 						)}
 						onClick={() => onDotsClick(index)}
@@ -311,6 +325,43 @@ const Dots: React.FC<DotsProps> = (props) => {
 				</li>
 			))}
 		</ul>
+	);
+};
+
+type ThumbProps = {
+	children: ThumbButton[];
+	emblaMainApi: CarouselApi;
+	className?: string;
+};
+
+const Thumb: React.FC<ThumbProps> = (props) => {
+	const { children, emblaMainApi, className } = props;
+	const [emblaThumbsRef, emblaThumbsApi] = useEmblaCarousel();
+	const [selectedIndex, setSelectedIndex] = React.useState(0);
+
+	const clonedButtons = children.map((child, index) =>
+		React.cloneElement(child, {
+			onClick: () => onThumbClick(index),
+			style: {
+				border: selectedIndex === index ? '3px solid #FBBA16' : undefined,
+			},
+			key: index,
+		}),
+	);
+
+	const onThumbClick = React.useCallback(
+		(index: number) => {
+			if (!emblaMainApi || !emblaThumbsApi) return;
+			emblaMainApi.scrollTo(index);
+			setSelectedIndex(index);
+		},
+		[emblaMainApi, emblaThumbsApi],
+	);
+
+	return (
+		<Carousel ref={emblaThumbsRef}>
+			<CarouselContent className={className}>{clonedButtons}</CarouselContent>
+		</Carousel>
 	);
 };
 

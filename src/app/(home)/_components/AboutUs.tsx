@@ -4,7 +4,7 @@ import { MoreButton } from '@/components/MoreButton';
 const AboutUs = () => {
 	return (
 		<div className="flex flex-col md:flex-row">
-			<div className="flex flex-1 flex-col gap-12 text-justify text-lg leading-8 text-gray-500">
+			<div className="flex flex-1 flex-col gap-6 text-justify leading-8 text-gray-500">
 				<p>
 					Dealer oficial Mimaki Brasil, prestando consultoria personalizada para
 					o mercado de impressão digital.

@@ -30,7 +30,7 @@ const Products = async () => {
 			))}
 			<MoreButton
 				href="/sobre"
-				className="mt-auto"
+				className="mt-auto md:ml-8"
 				title="Ver todos os produtos"
 			/>
 		</div>
@@ -39,9 +39,9 @@ const Products = async () => {
 
 function ProductCard({ data }: { data: TProduct }) {
 	return (
-		<Card className="group h-full">
+		<Card className="group h-full transition-transform ease-in hover:scale-105">
 			<CardHeader>
-				<CardTitle>{data.name}</CardTitle>
+				<CardTitle className="text-xl">{data.name}</CardTitle>
 			</CardHeader>
 			<CardContent className="overflow-hidden">
 				<Image
@@ -49,12 +49,12 @@ function ProductCard({ data }: { data: TProduct }) {
 					alt={data.name}
 					width={500}
 					height={500}
-					className="h-full w-full transition-transform duration-500 group-hover:scale-125"
+					className="h-full w-full transition-transform duration-500"
 				/>
 			</CardContent>
 			<CardFooter>
 				<CardDescription className="max-w-full break-words">
-					<strong className="mb-2 inline-block">
+					<strong className="mb-2 block">
 						Tipo: <span className="font-normal">{data.category}</span>
 					</strong>
 					{data.description}

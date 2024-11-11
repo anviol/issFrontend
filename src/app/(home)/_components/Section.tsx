@@ -16,9 +16,9 @@ const Section = ({
 	id,
 }: Props) => {
 	return (
-		<div className={twMerge('mx-auto w-full max-w-page py-32', className)}>
+		<div className={twMerge('mx-auto w-full max-w-page py-16', className)}>
 			<span id={id} className={jumpToClassName} />
-			<h2 id={id} className="mb-16 text-2xl font-semibold sm:text-3xl">
+			<h2 id={id} className="mb-16 text-xl font-semibold sm:text-3xl">
 				{title}
 			</h2>
 			{children}

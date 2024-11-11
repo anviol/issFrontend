@@ -1,7 +1,6 @@
+import Link from 'next/link';
 import Image from 'next/image';
 import { NavigationMenu } from './NavMenu';
-import { Search } from 'lucide-react';
-import Link from 'next/link';
 import { NavigationMenuMobile } from './NavMenuMobile';
 
 const Header = () => {
@@ -10,22 +9,20 @@ const Header = () => {
 			<NavigationMenuMobile />
 
 			<div className="flex flex-1 justify-center p-4">
-				<Image
-					width={1024}
-					height={1024}
-					src="/assets/ISS (Branca).svg"
-					alt="Lôgo ISS"
-					className="aspect-auto w-16 md:w-28 md:min-w-16"
-				/>
+				<Link href={'/'}>
+					<Image
+						width={1024}
+						height={1024}
+						src="/assets/ISS (Branca).svg"
+						alt="Lôgo ISS"
+						className="aspect-auto w-16 md:w-28 md:min-w-16"
+					/>
+				</Link>
 			</div>
 
 			<NavigationMenu />
 
-			<div className="flex justify-center p-6 md:flex-1">
-				{/* <Link href={'/buscar'}>
-					<Search className="h-6 w-6 min-w-6 text-white hover:text-issYellow" />
-				</Link> */}
-			</div>
+			<div className="flex justify-center p-6 md:flex-1"></div>
 		</header>
 	);
 };
