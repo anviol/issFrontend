@@ -32,7 +32,7 @@ export const extraLinks: NavLinks[] = [
 	},
 	{
 		title: 'Eventos e Mídias',
-		href: '/',
+		href: '/eventos',
 		id: '2',
 	},
 	{

@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Mail } from 'lucide-react';
 
@@ -80,9 +81,13 @@ export default async function ProductDetail({ params: { slug } }: Props) {
 			</div>
 
 			<div className="mt-8 flex sm:justify-end md:mt-0">
-				<button className="flex w-full items-center justify-center gap-2 rounded-md bg-issYellow p-4 transition-all hover:brightness-90 sm:w-auto">
-					<Mail className="h-6 w-6" /> Solicitar Orçamento
-				</button>
+				<Link
+					href={`/contato/${product.nome}`}
+					className="flex w-full items-center justify-center gap-2 rounded-md bg-issYellow p-4 transition-all hover:brightness-90 sm:w-auto"
+				>
+					<Mail className="h-6 w-6" />
+					Solicitar Orçamento
+				</Link>
 			</div>
 
 			<div className="mb-16 mt-8">
@@ -120,8 +125,9 @@ function disableTab(label: string, product: TProductAttributes) {
 		if (!product.catalogo.data && !product.drive.data) return true;
 	} else if (label === 'Suprimentos') {
 		if (
-			product.suprimentos.length <= 1 &&
-			product.suprimentos[0].children.every((e) => !e.text)
+			!product.suprimentos ||
+			(product.suprimentos.length <= 1 &&
+				product.suprimentos[0].children.every((e) => !e.text))
 		)
 			return true;
 	}

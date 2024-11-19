@@ -1,5 +1,5 @@
 import { api } from '@/company-api/api';
-import { ClientForm } from './ClientForm';
+import { ClientForm } from '../ClientForm';
 import { notFound } from 'next/navigation';
 
 export type TFormOptions = {
@@ -12,12 +12,19 @@ export type TFormOptions = {
 	}[];
 };
 
-export default async function Contact() {
+export default async function Contact({
+	params,
+}: {
+	params: { product?: string[] };
+}) {
 	const data = await getDate();
 
 	return (
 		<div>
-			<ClientForm fields={data} />
+			<ClientForm
+				fields={data}
+				product={(params.product && params.product[0]) || null}
+			/>
 		</div>
 	);
 }

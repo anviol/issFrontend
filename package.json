@@ -32,6 +32,7 @@
     "react": "^18",
     "react-day-picker": "^8.10.1",
     "react-dom": "^18",
+    "react-grid-gallery": "^1.0.1",
     "react-hook-form": "^7.53.1",
     "react-markdown": "^9.0.1",
     "react-social-media-embed": "^2.5.16",

@@ -15,7 +15,7 @@ const HomeCarousel = async () => {
 	const data = await getData();
 
 	return (
-		<div className="relative mx-auto w-full md:my-8 md:max-w-[min(1200px,95%)]">
+		<div className="relative mx-auto w-full py-10 md:my-8 md:max-w-[min(1200px,95%)]">
 			<Carousel
 				className="w-full md:px-14"
 				plugins={[AutoplayPlugin()]}

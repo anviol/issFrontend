@@ -2,6 +2,8 @@
 
 import React, { useEffect, useState } from 'react';
 import { twJoin } from 'tailwind-merge';
+import { TTimeLine } from './page';
+import { RawToMarkdown } from '@/components/ReactMarkdown';
 
 const lineThickness = 4;
 const lineHeight = 32;
@@ -12,10 +14,7 @@ const WIDTH_OFFSET = circleWidth / 2 - lineThickness / 2;
 const lineColorClassName = '[&_span]:text-yellow-400';
 
 type Props = {
-	data: {
-		ano: string;
-		descricao: string;
-	}[];
+	data: TTimeLine['data'];
 };
 
 export const TimeLine = ({ data }: Props) => {
@@ -44,7 +43,7 @@ export const TimeLine = ({ data }: Props) => {
 
 	return (
 		<div className="mx-auto py-4 pb-36 text-justify sm:max-w-[min(1000px,95%)]">
-			{data.map((item, index) => {
+			{data.map(({ attributes }, index) => {
 				const start = index % 2 === 0; //true = esquerda; false = direita;
 				const isFirst = index === 0;
 				const isLast = index === data.length - 1;
@@ -55,8 +54,8 @@ export const TimeLine = ({ data }: Props) => {
 						className={`flex flex-col ${lineColorClassName} group`}
 					>
 						<TimeSection
-							year={item.ano}
-							description={item.descricao}
+							year={attributes.ano}
+							description={attributes.acontecimento}
 							isFirst={isFirst}
 							isLast={isLast}
 							isStart={start}
@@ -88,7 +87,7 @@ const TimeSection = ({
 	isLast,
 	isStart,
 }: {
-	year: string;
+	year: number;
 	description: string;
 	isInCenter: boolean;
 	isStart: boolean;
@@ -124,7 +123,7 @@ const TimeSection = ({
 					style={{ width: lineThickness }}
 				/>
 			</div>
-			<p
+			<div
 				className={twJoin(
 					`my-auto py-8 leading-8 duration-500 sm:max-w-[70%] sm:px-0`,
 					isStart
@@ -133,8 +132,8 @@ const TimeSection = ({
 					isInCenter ? 'opacity-100 sm:scale-[1.01]' : 'scale-100 opacity-30',
 				)}
 			>
-				{description}
-			</p>
+				<RawToMarkdown text={description} />
+			</div>
 		</div>
 	);
 };

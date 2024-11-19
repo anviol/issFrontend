@@ -24,7 +24,7 @@ const Products = async () => {
 	return (
 		<div className="grid max-w-full grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4">
 			{data.map((item) => (
-				<Link href="#" key={item.id}>
+				<Link href={`/produtos/Mimaki/${item.name}`} key={item.id}>
 					<ProductCard data={item} />
 				</Link>
 			))}

@@ -15,13 +15,15 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Section } from '../(home)/_components/Section';
-import { TFormOptions } from './page';
+import { TFormOptions } from './[[...product]]/page';
+import { Label } from '@/components/ui/label';
 
 type Props = {
 	fields: TFormOptions['data'];
+	product: string | null;
 };
 
-export const ClientForm = ({ fields }: Props) => {
+export const ClientForm = ({ fields, product }: Props) => {
 	const formSchema = buildSchema(fields);
 
 	const form = useForm<z.infer<typeof formSchema>>({
@@ -34,6 +36,13 @@ export const ClientForm = ({ fields }: Props) => {
 
 	return (
 		<Section title="Entre em contato conosco" className="pb-40">
+			{product && (
+				<div className="mb-8">
+					<Label htmlFor="product">{'Produto'}</Label>
+					<Input id={'product'} value={product} readOnly />
+				</div>
+			)}
+
 			<Form {...form}>
 				<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
 					{fields.map(({ id, attributes }) => {
