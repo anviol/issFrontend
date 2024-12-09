@@ -87,7 +87,7 @@ export default async function BrandCatalog({ params: { brand } }: Props) {
 						key={String(category.id)}
 						className="mx-auto mb-16 max-w-[min(1100px,95%)]"
 					>
-						<h3 className="mb-4 rounded border-t-4 border-issYellow px-4 py-3 text-xl font-medium">
+						<h3 className="mb-4 rounded border-t-4 border-issYellow py-3 text-xl font-medium">
 							{categoryName}
 						</h3>
 						<ul className="grid grid-cols-2 gap-8">
