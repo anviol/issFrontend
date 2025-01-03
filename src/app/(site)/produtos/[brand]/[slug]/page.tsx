@@ -4,17 +4,8 @@ import { notFound } from 'next/navigation';
 import { Mail } from 'lucide-react';
 
 import { api } from '@/company-api/api';
-import {
-	Carousel,
-	CarouselContent,
-	CarouselItem,
-} from '@/components/ui/carousel';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import {
-	TProductAPI,
-	TProductAttributes,
-	TProductImage,
-} from '@/@types/products';
+import { TProductAPI, TProductAttributes, TImage } from '@/@types/products';
 import { MainContent } from './content/MainContent';
 import { Downloads } from './content/Downloads';
 import { Supplies } from './content/Supplies';
@@ -33,7 +24,10 @@ const tabs = [
 const baseUrl = process.env.API_URL;
 
 export default async function ProductDetail({ params: { slug } }: Props) {
-	const { imagens, ...product } = await getData(slug);
+	const { usages, ...product } = await getData(slug);
+	const {
+		principal: { data: principal },
+	} = product;
 
 	return (
 		<div className="mx-auto mt-8 max-w-page">
@@ -44,40 +38,14 @@ export default async function ProductDetail({ params: { slug } }: Props) {
 			</h2>
 			<hr className="mt-4 border" />
 
-			<div className="mt-8">
-				<Carousel
-					thumbs={imagens.map(({ attributes }, id) => (
-						<button
-							key={String(id)}
-							className="z-30 h-11 w-11 overflow-hidden rounded border"
-						>
-							<Image
-								src={`${baseUrl}${attributes.url}`}
-								alt={attributes.alternativeText || ''}
-								width={140}
-								height={140}
-								className="h-full w-full object-cover"
-							/>
-						</button>
-					))}
-					thumbsClassName="px-8 space-x-2"
-				>
-					<CarouselContent className="mx-auto max-w-full">
-						{imagens.map(({ attributes }, id) => (
-							<CarouselItem key={id} className="p-4">
-								<div className="h-80 w-auto overflow-hidden rounded-lg border">
-									<Image
-										src={`${baseUrl}${attributes.url}`}
-										alt={attributes.alternativeText || ''}
-										width={attributes.width}
-										height={attributes.height}
-										className="h-full w-full bg-black/70 object-contain"
-									/>
-								</div>
-							</CarouselItem>
-						))}
-					</CarouselContent>
-				</Carousel>
+			<div className="flex items-center justify-center p-8">
+				<Image
+					src={`${baseUrl}${principal?.attributes.url}`}
+					alt={principal?.attributes.alternativeText || ''}
+					width={principal?.attributes.width}
+					height={principal?.attributes.height}
+					className={`h-[${principal?.attributes.width}] w-[${principal?.attributes.height}] object-contain`}
+				/>
 			</div>
 
 			<div className="mt-8 flex sm:justify-end md:mt-0">
@@ -105,7 +73,11 @@ export default async function ProductDetail({ params: { slug } }: Props) {
 					</TabsList>
 					<div className="min-h-96 pb-10 sm:px-4">
 						<TabsContent key={tabs[0].id} value={tabs[0].id}>
-							<MainContent data={product.descricaoDetalhadaMD} />
+							<MainContent
+								data={product.descricaoDetalhadaMD}
+								usages={usages}
+								productName={`${product.serie}-${product.nome}`}
+							/>
 						</TabsContent>
 						<TabsContent key={tabs[1].id} value={tabs[1].id}>
 							<Supplies data={product.suprimentos} />
@@ -154,20 +126,15 @@ const getData = async (slug: string) => {
 	}
 
 	const { attributes } = data[0];
-	const imagens: (TProductImage['data'] & { principal: boolean })[] = [];
+	const usages: NonNullable<TImage['data']>[] = [];
 
 	(Object.keys(attributes) as Array<keyof TProductAttributes>).map((key) => {
-		const isMainImage = key === 'principal';
-
-		if (key.startsWith('secundaria') || isMainImage) {
-			if ((attributes[key] as TProductImage).data?.attributes.url) {
-				const data = (attributes[key] as TProductImage)['data'];
+		if (key.startsWith('secundaria')) {
+			if ((attributes[key] as TImage).data?.attributes.url) {
+				const data = (attributes[key] as TImage)['data'];
 
 				if (data) {
-					imagens.push({
-						principal: isMainImage,
-						...data,
-					});
+					usages.push(data);
 				}
 			}
 		}
@@ -175,9 +142,6 @@ const getData = async (slug: string) => {
 
 	return {
 		...attributes,
-		imagens: imagens.sort((e) => {
-			if (e.principal) return 1;
-			return 0;
-		}),
+		usages,
 	};
 };

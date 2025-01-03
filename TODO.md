@@ -5,7 +5,7 @@
 * [] Conectar destaques de produtos
 * [] Aviso
 * [] Segunda via boleto
-* [] Arrumar página de produtos
+* ✅ Arrumar página de produtos
 
 * rota de Chamado precisa ser um array?
 * Rodapé precisa ser um array pra ter mais de 1 telefone
