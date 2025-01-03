@@ -120,11 +120,15 @@ const NavMenuItem = ({
 const NavMenuLink = ({
 	className,
 	...props
-}: LinkProps & { children: React.ReactNode; className?: string }) => {
+}: LinkProps & {
+	target?: React.HTMLAttributeAnchorTarget;
+	children: React.ReactNode;
+	className?: string;
+}) => {
 	return (
 		<NavMenuItem className={className}>
 			<Link {...props} legacyBehavior passHref>
-				<NavMenu.NavigationMenuLink>
+				<NavMenu.NavigationMenuLink target={props?.target}>
 					{props.children}
 				</NavMenu.NavigationMenuLink>
 			</Link>

@@ -7,6 +7,16 @@ import * as SocialIcons from '../SocialIcons';
 import { FooterSections } from './FooterSection';
 import { Separator } from '../ui/separator';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
+import { api } from '@/company-api/api';
+import { WithPagination } from '@/@types/api';
+
+type TSocialLink = {
+	id: number;
+	attributes: {
+		rede: string;
+		link: string;
+	};
+};
 
 const Footer = async () => {
 	const socials = await getSocials();
@@ -25,10 +35,10 @@ const Footer = async () => {
 							className="aspect-square w-52 object-contain"
 						/>
 						<ul className="flex w-full justify-between gap-2">
-							{socials.map((social) => (
-								<li key={String(social.id)}>
-									<Link href={social.url}>
-										{getSocialIcon(social.title, 'h-5 w-5 fill-white')}
+							{socials.map(({ id, attributes: social }) => (
+								<li key={String(id)}>
+									<Link href={social.link}>
+										{getSocialIcon(social.rede, 'h-5 w-5 fill-white')}
 									</Link>
 								</li>
 							))}
@@ -58,7 +68,7 @@ const Footer = async () => {
 									) : (
 										<SocialIcons.WhatsApp className="h-5 w-5" />
 									),
-								targetBlank: true,
+								external: true,
 							}))}
 						/>
 					</div>
@@ -92,10 +102,10 @@ const Footer = async () => {
 				</PopoverTrigger>
 				<PopoverContent className="w-min" sideOffset={20}>
 					<ul className="flex w-full flex-col justify-between gap-8">
-						{socials.map((social) => (
-							<li key={String(social.id)}>
-								<Link href={social.url} title={social.title}>
-									{getSocialIcon(social.title, 'h-7 w-7 fill-issYellow')}
+						{socials.map(({ id, attributes: social }) => (
+							<li key={String(id)}>
+								<Link href={social.link} title={social.rede}>
+									{getSocialIcon(social.rede, 'h-7 w-7 fill-issYellow')}
 								</Link>
 							</li>
 						))}
@@ -120,13 +130,18 @@ const getSocialIcon = (icon: string, className?: string) => {
 };
 
 const getSocials = async () => {
-	return [
-		{ id: '1', title: 'Instagram', url: '#' },
-		{ id: '2', title: 'LinkedIn', url: '#' },
-		{ id: '3', title: 'Youtube', url: '#' },
-		{ id: '4', title: 'X', url: '#' },
-		{ id: '6', title: 'Facebook', url: '#' },
-	];
+	const { data, error } = await api<WithPagination<TSocialLink>>({
+		url: '/rede-socials',
+		fetchOptions: {
+			cache: 'no-store',
+		},
+	});
+
+	if (error) {
+		if (error.status === 404) return [];
+	}
+
+	return data;
 };
 
 const getContacts = async () => {

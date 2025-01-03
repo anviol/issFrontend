@@ -2,8 +2,6 @@ import type { Metadata } from 'next';
 import { Poppins } from 'next/font/google';
 
 import './globals.css';
-import { Header } from '../components/Header';
-import { Footer } from '../components/Footer';
 
 export const metadata: Metadata = {
 	title: 'ISS Comércio',
@@ -23,11 +21,7 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="pt-BR">
-			<body className={`${poppins.className} antialiased`}>
-				<Header />
-				{children}
-				<Footer />
-			</body>
+			<body className={`${poppins.className} antialiased`}>{children}</body>
 		</html>
 	);
 }

@@ -1,10 +1,11 @@
-type NavLinks =
+export type NavLinks =
 	| {
 			id: string;
 			title: string;
 			href: string;
 			isProductsLink: true;
 			brands: { id: string; title: string; href: string }[];
+			external?: boolean;
 	  }
 	| {
 			id: string;
@@ -12,6 +13,7 @@ type NavLinks =
 			href: string;
 			isProductsLink?: false;
 			brands?: never;
+			external?: boolean;
 	  };
 
 export const extraLinks: NavLinks[] = [
@@ -37,8 +39,9 @@ export const extraLinks: NavLinks[] = [
 	},
 	{
 		title: 'Boletos',
-		href: '/',
+		href: 'https://www.itau.com.br/servicos/boletos/segunda-via',
 		id: '3',
+		external: true,
 	},
 	{
 		title: 'Contato',
