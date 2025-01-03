@@ -1,16 +1,7 @@
 import { api } from '@/company-api/api';
 import { ClientForm } from '../ClientForm';
 import { notFound } from 'next/navigation';
-
-export type TFormOptions = {
-	data: {
-		id: number;
-		attributes: {
-			campo: string;
-			obrigatorio: boolean;
-		};
-	}[];
-};
+import { TFormOptions } from '@/@types/form';
 
 export default async function Contact({
 	params,

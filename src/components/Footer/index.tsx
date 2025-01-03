@@ -37,9 +37,9 @@ const Footer = async () => {
 						<ul className="flex w-full justify-between gap-2">
 							{socials.map(({ id, attributes: social }) => (
 								<li key={String(id)}>
-									<Link href={social.link}>
+									<a href={social.link} target="_blank">
 										{getSocialIcon(social.rede, 'h-5 w-5 fill-white')}
-									</Link>
+									</a>
 								</li>
 							))}
 						</ul>
@@ -104,7 +104,7 @@ const Footer = async () => {
 					<ul className="flex w-full flex-col justify-between gap-8">
 						{socials.map(({ id, attributes: social }) => (
 							<li key={String(id)}>
-								<Link href={social.link} title={social.rede}>
+								<Link href={social.link} title={social.rede} target="_blank">
 									{getSocialIcon(social.rede, 'h-7 w-7 fill-issYellow')}
 								</Link>
 							</li>
