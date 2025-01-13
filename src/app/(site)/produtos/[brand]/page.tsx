@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 
 import { WithPagination } from '@/@types/api';
-import { TProductImage } from '@/@types/products';
+import { TImage } from '@/@types/products';
 import { api } from '@/company-api/api';
 import {
 	Card,
@@ -23,7 +23,7 @@ type TProductShort = {
 		nome: string;
 		serie: string;
 		breveDecricao: string;
-		principal: TProductImage;
+		principal: TImage;
 	};
 };
 
@@ -91,27 +91,24 @@ export default async function BrandCatalog({ params: { brand } }: Props) {
 							{categoryName}
 						</h3>
 						<ul className="grid grid-cols-2 gap-8">
-							{produtos.map(({ id, attributes }) => {
+							{produtos.map(({ id, attributes: att }) => {
 								return (
 									<li key={String(id)}>
-										<Link
-											href={brand + '/' + attributes.nome.replace(' ', '-')}
-										>
+										<Link href={brand + '/' + att.nome.replace(' ', '-')}>
 											<Card className="flex max-h-72 transition-transform hover:scale-[1.03]">
 												<img
 													src={
 														(process.env.API_URL || '') +
-														attributes.principal.data?.attributes.url
+														att.principal.data?.attributes.url
 													}
 													alt={
-														attributes.principal.data?.attributes
-															.alternativeText ?? ''
+														att.principal.data?.attributes.alternativeText ?? ''
 													}
-													className="h-60 w-60 border-r object-contain"
+													className={`h-[${att.principal.data?.attributes.height}] w-[${att.principal.data?.attributes.width}] max-h-60 max-w-60 border-r object-contain`}
 												/>
 												<div className="flex flex-col">
 													<CardHeader>
-														<CardTitle>{attributes.nome}</CardTitle>
+														<CardTitle>{att.nome}</CardTitle>
 													</CardHeader>
 
 													<CardContent className="line-clamp-6">
@@ -119,10 +116,10 @@ export default async function BrandCatalog({ params: { brand } }: Props) {
 															<strong className="font-semibold opacity-90">
 																Serie:
 															</strong>{' '}
-															{attributes.serie}
+															{att.serie}
 														</p>
 														<CardDescription className="text-justify">
-															{attributes.breveDecricao}
+															{att.breveDecricao}
 														</CardDescription>
 													</CardContent>
 												</div>
@@ -144,6 +141,7 @@ async function getCategories(brand: string) {
 		url: '/catalogo-produtos-por-marcas',
 		strapiQueryParams: [
 			'populate=produtos.principal,*',
+			'pagination[limit]=1000',
 			`filters[fornecedor][nome][$eq]=${brand}`,
 		],
 		fetchOptions: {

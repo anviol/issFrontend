@@ -1,14 +1,11 @@
 import Link from 'next/link';
+import { NavLinks } from '../Header/menu-links';
 
 type Props = {
 	title: string;
-	data: {
-		id: string;
-		href: string;
-		title: string;
+	data: (NavLinks & {
 		icon?: React.ReactElement;
-		targetBlank?: boolean;
-	}[];
+	})[];
 };
 
 export function FooterSections({ title, data }: Props) {
@@ -24,7 +21,7 @@ export function FooterSections({ title, data }: Props) {
 						{item?.icon}
 						<Link
 							href={item.href}
-							target={item.targetBlank ? '_blank' : undefined}
+							target={item.external ? '_blank' : undefined}
 						>
 							{item.title}
 						</Link>

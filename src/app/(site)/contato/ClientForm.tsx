@@ -15,8 +15,8 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Section } from '../(home)/_components/Section';
-import { TFormOptions } from './[[...product]]/page';
 import { Label } from '@/components/ui/label';
+import { TFormOptions } from '@/@types/form';
 
 type Props = {
 	fields: TFormOptions['data'];

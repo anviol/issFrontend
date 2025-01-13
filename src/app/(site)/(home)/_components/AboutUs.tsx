@@ -23,19 +23,19 @@ const AboutUs = () => {
 			</div>
 
 			<div className="flex h-full flex-[2] items-end justify-end pr-2 sm:-mt-10">
-				<div className="z-10 mb-[5%] h-[70%] w-[60%] translate-x-1/2 overflow-hidden rounded-xl lg:w-[40%]">
+				<div className="z-10 mb-[5%] h-[70%] w-[60%] max-w-[60%] translate-x-1/2 overflow-hidden rounded-xl lg:w-[40%]">
 					<Image
-						height={1000}
-						width={1000}
+						height={500}
+						width={500}
 						src="https://www.isscomercio.com.br/images/sobre-2.jpg"
 						alt=""
 						className="object-cover transition-transform duration-500 hover:-rotate-3 hover:scale-125"
 					/>
 				</div>
-				<div className="w-[90%] overflow-hidden rounded-xl lg:w-1/2">
+				<div className="w-[90%] max-w-[90%] overflow-hidden rounded-xl lg:w-1/2">
 					<Image
-						height={1000}
-						width={1000}
+						height={500}
+						width={500}
 						src="https://www.isscomercio.com.br/images/empresa/sobre-nos-1.jpg"
 						alt=""
 						className="h-full object-cover transition-transform duration-500 hover:translate-x-10 hover:rotate-6 hover:scale-150"

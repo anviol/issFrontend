@@ -32,7 +32,13 @@ export function NavigationMenu() {
 					}
 
 					return (
-						<NavMenuLink key={item.id} href={item.href} legacyBehavior passHref>
+						<NavMenuLink
+							key={item.id}
+							href={item.href}
+							legacyBehavior
+							passHref
+							target={item.external ? '_blank' : undefined}
+						>
 							{item.title}
 						</NavMenuLink>
 					);
@@ -64,11 +70,16 @@ const NavMenuItem = ({
 	);
 };
 
-const NavMenuLink = (props: LinkProps & { children: React.ReactNode }) => {
+const NavMenuLink = (
+	props: LinkProps & {
+		target?: React.HTMLAttributeAnchorTarget;
+		children: React.ReactNode;
+	},
+) => {
 	return (
 		<NavMenuItem>
 			<Link {...props}>
-				<NavMenu.NavigationMenuLink>
+				<NavMenu.NavigationMenuLink target={props?.target}>
 					{props.children}
 				</NavMenu.NavigationMenuLink>
 			</Link>

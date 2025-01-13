@@ -41,3 +41,5 @@ next-env.d.ts
 .prettierignore
 mapa mental.md
 TODO.md
+
+.codegpt

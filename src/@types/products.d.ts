@@ -1,4 +1,4 @@
-export type TProductImage = {
+export type TImage = {
 	data: {
 		id: number;
 		attributes: {
@@ -40,12 +40,12 @@ export type TProductAttributes = {
 	breveDecricao: string;
 	suprimentos: TProductSupply[] | null;
 	descricaoDetalhadaMD: string;
-	principal: TProductImage;
-	secundaria1: TProductImage;
-	secundaria2: TProductImage;
-	secundaria3: TProductImage;
-	secundaria4: TProductImage;
-	[key: `secundaria${number}`]: TProductImage | undefined;
+	principal: TImage;
+	secundaria1: TImage;
+	secundaria2: TImage;
+	secundaria3: TImage;
+	secundaria4: TImage;
+	[key: `secundaria${number}`]: TImage | undefined;
 	catalogo: TDownloadable;
 	drive: TDownloadable;
 };
