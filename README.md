@@ -1,5 +1,14 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Variáveis de Ambiente
+
+Para iniciar o projeto deve colocar as variáveis de ambiente
+
+```bash
+API_URL=
+API_AUTH_TOKEN=
+```
+
 ## Getting Started
 
 First, run the development server:
