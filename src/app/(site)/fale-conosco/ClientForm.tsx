@@ -3,6 +3,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+import { PatternFormat } from 'react-number-format';
+
 import { Button } from '@/components/ui/button';
 import {
 	Form,
@@ -39,7 +41,7 @@ export const ClientForm = ({ fields, product }: Props) => {
 			{product && (
 				<div className="mb-8">
 					<Label htmlFor="product">{'Produto'}</Label>
-					<Input id={'product'} value={product} readOnly />
+					<Input id={'product'} value={product} readOnly disabled />
 				</div>
 			)}
 
@@ -49,8 +51,10 @@ export const ClientForm = ({ fields, product }: Props) => {
 						const { campo, obrigatorio } = attributes;
 						const placeholder =
 							campo === 'Telefone' || campo === 'Whatsapp'
-								? '(DD) 99999-9999, DD999999999'
+								? '(DD) 99999-9999'
 								: campo;
+
+						const format = maskByInputName(campo);
 
 						return (
 							<FormField
@@ -64,7 +68,16 @@ export const ClientForm = ({ fields, product }: Props) => {
 											{obrigatorio && <span className="text-red-500"> *</span>}
 										</FormLabel>
 										<FormControl>
-											<Input placeholder={placeholder} {...field} />
+											{format ? (
+												<PatternFormat
+													format={format}
+													{...field}
+													placeholder={placeholder}
+													customInput={Input}
+												/>
+											) : (
+												<Input placeholder={placeholder} {...field} />
+											)}
 										</FormControl>
 
 										<FormMessage />
@@ -139,10 +152,32 @@ function buildSchema(fields: TFormOptions['data']) {
 		.min(10, {
 			message: 'Deve conter pelo menos 10 caracteres.',
 		})
-		.max(200, {
-			message: 'Deve conter no máximo 200 caracteres.',
+		.max(250, {
+			message: 'Deve conter no máximo 250 caracteres.',
 		})
 		.optional();
 
 	return z.object(schemaShape);
+}
+
+// receive input name and return input mask pattern based on the name
+function maskByInputName(inputName: string) {
+	const phoneMask = '(##) #####-####';
+	const cpfMask = '###.###.###-##';
+	const cnpjMask = '##.###.###/####-##';
+	const cepMask = '#####-###';
+
+	switch (inputName.toLowerCase()) {
+		case 'telefone':
+		case 'whatsapp':
+			return phoneMask;
+		case 'cpf':
+			return cpfMask;
+		case 'cnpj':
+			return cnpjMask;
+		case 'cep':
+			return cepMask;
+		default:
+			return '';
+	}
 }

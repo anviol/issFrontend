@@ -98,7 +98,7 @@ export default async function BrandCatalog({ params: { brand } }: Props) {
 											<Card className="flex max-h-72 transition-transform hover:scale-[1.03]">
 												<img
 													src={
-														(process.env.API_URL || '') +
+														(process.env.NEXT_PUBLIC_API_URL || '') +
 														att.principal.data?.attributes.url
 													}
 													alt={

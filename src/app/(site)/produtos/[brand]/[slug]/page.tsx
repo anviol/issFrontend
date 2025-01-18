@@ -21,7 +21,7 @@ const tabs = [
 	{ id: '3', label: 'Downloads' },
 ];
 
-const baseUrl = process.env.API_URL;
+const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 
 export default async function ProductDetail({ params: { slug } }: Props) {
 	const { usages, ...product } = await getData(slug);
@@ -34,7 +34,7 @@ export default async function ProductDetail({ params: { slug } }: Props) {
 			<h2 className="flex items-center gap-2 text-2xl font-medium text-muted-foreground sm:text-3xl">
 				{product.serie}{' '}
 				<Separator orientation="vertical" className="h-8 w-0.5" />
-				<span className="text-black"> {product.nome}</span>
+				<span className="text-black">{product.nome}</span>
 			</h2>
 			<hr className="mt-4 border" />
 
@@ -50,7 +50,7 @@ export default async function ProductDetail({ params: { slug } }: Props) {
 
 			<div className="mt-8 flex sm:justify-end md:mt-0">
 				<Link
-					href={`/contato/${product.nome}`}
+					href={`/fale-conosco/${product.nome}`}
 					className="flex w-full items-center justify-center gap-2 rounded-md bg-issYellow p-4 transition-all hover:brightness-90 sm:w-auto"
 				>
 					<Mail className="h-6 w-6" />

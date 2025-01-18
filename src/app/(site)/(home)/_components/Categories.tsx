@@ -46,7 +46,7 @@ function ProductCard({ data }: { data: TCategories['attributes'] }) {
 			</CardHeader>
 			<CardContent className="overflow-hidden p-0">
 				<Image
-					src={`${process.env.API_URL}${image?.url}`}
+					src={`${process.env.NEXT_PUBLIC_API_URL}${image?.url}`}
 					alt={image?.alternativeText || ''}
 					width={500}
 					height={500}

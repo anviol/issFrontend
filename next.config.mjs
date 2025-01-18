@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 
-const [protocol, rest] = process.env.API_URL.split('://');
+const [protocol, rest] = process.env.NEXT_PUBLIC_API_URL.split('://');
 const [hostname, port] = rest.split(':');
 
 const nextConfig = {

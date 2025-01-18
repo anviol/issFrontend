@@ -8,7 +8,7 @@ type Props = {
 	productName: string;
 };
 
-const baseUrl = process.env.API_URL;
+const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 
 export const MainContent = async ({ data, usages, productName }: Props) => {
 	return (

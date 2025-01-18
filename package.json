@@ -36,6 +36,7 @@
     "react-grid-gallery": "^1.0.1",
     "react-hook-form": "^7.53.1",
     "react-markdown": "^9.0.1",
+    "react-number-format": "^5.4.3",
     "react-social-media-embed": "^2.5.16",
     "react-spring": "^9.7.4",
     "rehype-raw": "^7.0.0",

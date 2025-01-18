@@ -15,7 +15,7 @@ export async function api<T = ResponseData>(options: {
 	fetchOptions?: RequestInit;
 }): Promise<T & ResponseError> {
 	const { url, fetchOptions, strapiQueryParams = [] } = options;
-	const baseUrl = `${process.env.API_URL}/api${url}`;
+	const baseUrl = `${process.env.NEXT_PUBLIC_API_URL}/api${url}`;
 
 	const resp = await fetch(`${baseUrl}?${strapiQueryParams.join('&')}`, {
 		headers: {
