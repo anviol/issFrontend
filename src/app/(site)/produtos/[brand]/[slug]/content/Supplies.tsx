@@ -1,23 +1,31 @@
-import { TProductSupply } from '@/@types/products';
+import { RawToMarkdown } from '@/components/ReactMarkdown';
 
 type Props = {
-	data: TProductSupply[] | null;
+	data: string;
 };
 
 export const Supplies = ({ data }: Props) => {
 	return (
 		<div className="py-2">
 			<ul className="list-inside list-disc">
-				{data &&
-					data.map((item, id) => {
-						return (
-							<li key={String(id)}>
-								{item.children.map((itemb, idb) => {
-									return <span key={String(idb)}>{itemb.text}</span>;
-								})}
-							</li>
-						);
-					})}
+				<RawToMarkdown
+					text={data}
+					className={'text-justify leading-9'}
+					components={{
+						h1: ({ children, className, ...props }) => {
+							return (
+								<h1
+									className={
+										'!rounded !bg-muted !p-1 !px-4 !text-base !font-semibold'
+									}
+									{...props}
+								>
+									{children}
+								</h1>
+							);
+						},
+					}}
+				/>
 			</ul>
 		</div>
 	);

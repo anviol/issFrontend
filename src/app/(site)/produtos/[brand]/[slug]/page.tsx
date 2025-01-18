@@ -80,7 +80,7 @@ export default async function ProductDetail({ params: { slug } }: Props) {
 							/>
 						</TabsContent>
 						<TabsContent key={tabs[1].id} value={tabs[1].id}>
-							<Supplies data={product.suprimentos} />
+							<Supplies data={product.suprimentos || ''} />
 						</TabsContent>
 						<TabsContent key={tabs[2].id} value={tabs[2].id}>
 							<Downloads data={[product.catalogo, product.drive]} />
@@ -96,12 +96,7 @@ function disableTab(label: string, product: TProductAttributes) {
 	if (label === 'Downloads') {
 		if (!product.catalogo.data && !product.drive.data) return true;
 	} else if (label === 'Suprimentos') {
-		if (
-			!product.suprimentos ||
-			(product.suprimentos.length <= 1 &&
-				product.suprimentos[0].children.every((e) => !e.text))
-		)
-			return true;
+		if (!product.suprimentos) return true;
 	}
 
 	return false;

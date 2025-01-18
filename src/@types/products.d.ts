@@ -26,19 +26,11 @@ export type TDownloadable = {
 	} | null;
 };
 
-export type TProductSupply = {
-	type: string;
-	children: {
-		text: string;
-		type: string;
-	}[];
-};
-
 export type TProductAttributes = {
 	nome: string;
 	serie: string;
 	breveDecricao: string;
-	suprimentos: TProductSupply[] | null;
+	suprimentos: string | null;
 	descricaoDetalhadaMD: string;
 	principal: TImage;
 	secundaria1: TImage;
