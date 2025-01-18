@@ -1,31 +1,28 @@
+import { api } from '@/company-api/api';
 import { Carousel, CarouselContent, CarouselItem, Dots } from '../ui/carousel';
 import { Embed } from './Embed';
+import { WithPagination } from '@/@types/api';
 
 type InstagramMedia = {
-	id: string;
-	url: string;
+	id: number;
+	attributes: { link: string };
 };
 
 const InstagramFeed = async () => {
 	const data = await getData();
 
 	return (
-		<Carousel
-			className="max-w-full"
-			opts={{
-				align: 'start',
-			}}
-		>
+		<Carousel className="max-w-full" opts={{ align: 'start' }}>
 			<CarouselContent>
-				{data.map((item) => (
+				{data.map(({ id, attributes }) => (
 					<CarouselItem
-						key={String(item.id)}
+						key={String(id)}
 						className="w-full max-w-full sm:max-w-[50%] lg:max-w-[33%]"
 					>
 						<div className="mx-auto lg:max-w-[350px]">
 							<div className="overflow-hidden rounded-xl border">
 								<Embed
-									url={item.url}
+									url={attributes.link}
 									captioned={false}
 									className="-mb-[56px] -ml-1 -mr-1 -mt-[55px]"
 								/>
@@ -39,17 +36,19 @@ const InstagramFeed = async () => {
 	);
 };
 
-const getData = async (): Promise<InstagramMedia[]> => {
-	try {
-		return [
-			{ id: '1', url: 'https://www.instagram.com/p/C3tNFxJrQY9/' },
-			{ id: '2', url: 'https://www.instagram.com/p/C8wqHKXPxy2/' },
-			{ id: '3', url: 'https://www.instagram.com/p/DA53-yyRq9S/' },
-		];
-	} catch (error) {
-		console.log(error);
-		return [];
+const getData = async () => {
+	const { data, error } = await api<WithPagination<InstagramMedia>>({
+		url: '/instagrams',
+		fetchOptions: {
+			cache: 'no-store',
+		},
+	});
+
+	if (error) {
+		if (error.status === 404) return [];
 	}
+
+	return data;
 };
 
 export { InstagramFeed };

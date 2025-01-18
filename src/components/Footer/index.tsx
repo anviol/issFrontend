@@ -177,7 +177,7 @@ const getContacts = async () => {
 	const { data, error } = await api<TContactInfo>({
 		url: '/rodape',
 		fetchOptions: {
-			cache: 'no-store',
+			next: { revalidate: 3600 * 24 },
 		},
 	});
 

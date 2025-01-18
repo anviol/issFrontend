@@ -1,7 +1,7 @@
 * ✅ Remover lupa de pesquisa 
 * ✅ Conectar redes sociais
 * ✅ Conectar endereço e contatos
-* [] Conectar instagram destaque
+* ✅ Conectar instagram destaque
 * [] Conectar destaques de produtos
 * [] Aviso
 * [] Conectar segunda via boleto
