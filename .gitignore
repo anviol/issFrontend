@@ -40,6 +40,4 @@ next-env.d.ts
 .prettierrc
 .prettierignore
 mapa mental.md
-TODO.md
-
-.codegpt
+todo.md
