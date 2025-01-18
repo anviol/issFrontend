@@ -8,6 +8,7 @@
 * ✅ Arrumar página de produtos
 * [] Banner de Cookies
 * [] Página de Termo de Uso e Política de Privacidade
+* [] Corrigir aba de suprimentos 
 
 * rota de Chamado precisa ser um array?
 * Rodapé precisa ser um array pra ter mais de 1 telefone
