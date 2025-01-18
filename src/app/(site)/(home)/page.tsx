@@ -37,14 +37,14 @@ export default function Home() {
 				<CalendarEvents />
 			</div>
 
-			<Section
+			{/* <Section
 				id="entre-em-contato"
 				title="Entre em contato conosco"
 				className="relative"
 				jumpToClassName="-top-36 absolute"
 			>
 				<ContactForm />
-			</Section>
+			</Section> */}
 
 			<div className="bg-pageBgGray">
 				<Section title="Acompanhe a ISS nas redes sociais">

@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import { notFound } from 'next/navigation';
 import { PhoneIcon, MapPin, Plus } from 'lucide-react';
 
 import { extraLinks } from '../Header/menu-links';
@@ -18,9 +19,21 @@ type TSocialLink = {
 	};
 };
 
+type TContactInfo = {
+	data: {
+		id: number;
+		attributes: {
+			celular: string;
+			whatsapp: string;
+			endereco: string;
+			telefone: string;
+		};
+	};
+};
+
 const Footer = async () => {
 	const socials = await getSocials();
-	const { address, contacts } = await getContacts();
+	const contacts = await getContacts();
 
 	return (
 		<>
@@ -55,21 +68,29 @@ const Footer = async () => {
 						/>
 						<FooterSections
 							title="Contato"
-							data={contacts.map((contact) => ({
-								id: contact.id,
-								href:
-									contact.type === 'telefone'
-										? `tel:${contact.value}`
-										: `https://api.whatsapp.com/send?phone=${contact.value}`,
-								title: contact.title,
-								icon:
-									contact.type === 'telefone' ? (
-										<PhoneIcon className="h-5 w-5" />
-									) : (
-										<SocialIcons.WhatsApp className="h-5 w-5" />
-									),
-								external: true,
-							}))}
+							data={[
+								{
+									id: 'telefone',
+									href: `tel:${contacts.telefone}`,
+									title: contacts.telefone,
+									icon: <PhoneIcon className="h-5 w-5" />,
+									external: true,
+								},
+								{
+									id: 'celular',
+									href: `tel:${contacts.celular}`,
+									title: contacts.celular,
+									icon: <PhoneIcon className="h-5 w-5" />,
+									external: true,
+								},
+								{
+									id: 'whatsapp',
+									href: `https://api.whatsapp.com/send?phone=${contacts.whatsapp}`,
+									title: contacts.whatsapp,
+									icon: <SocialIcons.WhatsApp className="h-5 w-5" />,
+									external: true,
+								},
+							]}
 						/>
 					</div>
 				</div>
@@ -93,7 +114,15 @@ const Footer = async () => {
 				</div>
 
 				<address className="mx-auto flex gap-2 text-center opacity-70">
-					<MapPin className="hidden sm:block" /> {address}
+					<MapPin className="hidden sm:block" />
+					<a
+						href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(contacts.endereco)}`}
+						target="_blank"
+						rel="noopener noreferrer"
+						className="hover:underline"
+					>
+						{contacts.endereco}
+					</a>
 				</address>
 			</div>
 			<Popover>
@@ -105,7 +134,7 @@ const Footer = async () => {
 						{socials.map(({ id, attributes: social }) => (
 							<li key={String(id)}>
 								<Link href={social.link} title={social.rede} target="_blank">
-									{getSocialIcon(social.rede, 'h-7 w-7 fill-issYellow')}
+									{getSocialIcon(social.rede, 'h-7 w-7 fill-slate-500')}
 								</Link>
 							</li>
 						))}
@@ -145,30 +174,18 @@ const getSocials = async () => {
 };
 
 const getContacts = async () => {
-	const contacts = [
-		{
-			id: '1',
-			title: '(31) 3643-4662',
-			value: '553136434662',
-			type: 'telefone',
+	const { data, error } = await api<TContactInfo>({
+		url: '/rodape',
+		fetchOptions: {
+			cache: 'no-store',
 		},
-		{
-			id: '2',
-			title: '(31) 9990-1378',
-			value: '553199901378',
-			type: 'telefone',
-		},
-		{
-			id: '3',
-			title: '(31) 99901-3782',
-			value: '5531999013782',
-			type: 'whatsapp',
-		},
-	];
+	});
 
-	const address = 'Rua Matutina 244 - Santa Inês - Belo Horizonte/MG';
+	if (error) {
+		if (error.status === 404) notFound();
+	}
 
-	return { address, contacts };
+	return data.attributes;
 };
 
 export { Footer };

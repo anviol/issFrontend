@@ -1,11 +1,13 @@
 * ✅ Remover lupa de pesquisa 
 * ✅ Conectar redes sociais
-* [] Conectar endereço e contatos
+* ✅ Conectar endereço e contatos
 * [] Conectar instagram destaque
 * [] Conectar destaques de produtos
 * [] Aviso
-* [] Segunda via boleto
+* [] Conectar segunda via boleto
 * ✅ Arrumar página de produtos
+* [] Banner de Cookies
+* [] Página de Termo de Uso e Política de Privacidade
 
 * rota de Chamado precisa ser um array?
 * Rodapé precisa ser um array pra ter mais de 1 telefone

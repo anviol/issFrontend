@@ -44,8 +44,8 @@ export const extraLinks: NavLinks[] = [
 		external: true,
 	},
 	{
-		title: 'Contato',
-		href: '/contato',
+		title: 'Fale Conosco',
+		href: '/fale-conosco',
 		id: '4',
 	},
 ];

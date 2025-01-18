@@ -1,12 +1,4 @@
-import { MoreButton } from '@/components/MoreButton';
-import {
-	Card,
-	CardTitle,
-	CardDescription,
-	CardContent,
-	CardHeader,
-	CardFooter,
-} from '@/components/ui/card';
+import { Card, CardTitle, CardContent, CardHeader } from '@/components/ui/card';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -28,11 +20,6 @@ const Products = async () => {
 					<ProductCard data={item} />
 				</Link>
 			))}
-			<MoreButton
-				href="/produtos/Mimaki"
-				className="mt-auto md:ml-8"
-				title="Ver todos os produtos"
-			/>
 		</div>
 	);
 };
@@ -52,14 +39,6 @@ function ProductCard({ data }: { data: TProduct }) {
 					className="h-full w-full transition-transform duration-500"
 				/>
 			</CardContent>
-			<CardFooter>
-				<CardDescription className="max-w-full break-words">
-					<strong className="mb-2 block">
-						Tipo: <span className="font-normal">{data.category}</span>
-					</strong>
-					{data.description}
-				</CardDescription>
-			</CardFooter>
 		</Card>
 	);
 }

@@ -41,19 +41,6 @@ const InstagramFeed = async () => {
 
 const getData = async (): Promise<InstagramMedia[]> => {
 	try {
-		// const fields = 'id,permalink';
-
-		// const resp = await fetch(
-		// 	`https://graph.facebook.com/v21.0/${process.env.IG_ACCOUNT_ID}/media?access_token=${process.env.IG_TOKEN}&fields=${fields}&limit=3`,
-		// 	{
-		// 		method: 'GET',
-		// 		cache: 'no-store',
-		// 	},
-		// );
-
-		// if (resp.status >= 300) throw new Error(resp.statusText);
-
-		// return resp.json();
 		return [
 			{ id: '1', url: 'https://www.instagram.com/p/C3tNFxJrQY9/' },
 			{ id: '2', url: 'https://www.instagram.com/p/C8wqHKXPxy2/' },
