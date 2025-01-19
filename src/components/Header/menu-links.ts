@@ -23,7 +23,7 @@ export const extraLinks: NavLinks[] = [
 		id: '1',
 	},
 	{
-		id: '5',
+		id: '2',
 		title: 'Produtos',
 		href: '',
 		isProductsLink: true,
@@ -35,13 +35,7 @@ export const extraLinks: NavLinks[] = [
 	{
 		title: 'Eventos e Mídias',
 		href: '/eventos',
-		id: '2',
-	},
-	{
-		title: 'Boletos',
-		href: 'https://www.itau.com.br/servicos/boletos/segunda-via',
 		id: '3',
-		external: true,
 	},
 	{
 		title: 'Fale Conosco',

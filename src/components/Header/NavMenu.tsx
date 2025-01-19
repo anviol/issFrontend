@@ -2,14 +2,19 @@ import * as React from 'react';
 import Link, { LinkProps } from 'next/link';
 import * as NavMenu from '@radix-ui/react-navigation-menu';
 import { cn } from '@/lib/utils';
-import { extraLinks } from './menu-links';
+import { extraLinks, NavLinks } from './menu-links';
 import { Brand4P, BrandMimaki } from './MenuProductArea';
 
-export function NavigationMenu() {
+type Props = {
+	boletosNavData: NavLinks;
+	chamadosNavData: NavLinks;
+};
+
+export function NavigationMenu({ boletosNavData, chamadosNavData }: Props) {
 	return (
 		<NavMenu.NavigationMenu className="z-300 hidden text-white md:block lg:text-lg">
 			<NavMenu.NavigationMenuList className="flex justify-center gap-2 px-4 min-[1200px]:gap-9 min-[1200px]:px-8">
-				{extraLinks.map((item) => {
+				{[...extraLinks, boletosNavData, chamadosNavData].map((item) => {
 					if (item?.isProductsLink) {
 						return (
 							<NavMenuItem key={item.id} className="relative py-0" noUnderline>

@@ -5,11 +5,19 @@ import * as NavMenu from '@radix-ui/react-navigation-menu';
 import { useResizeObserver, useScrollLock } from 'usehooks-ts';
 
 import { cn } from '@/lib/utils';
-import { extraLinks } from './menu-links';
+import { extraLinks, NavLinks } from './menu-links';
 import { BurgerIconAnim } from './BurgerIconAnim';
 import { Brand4P, BrandMimaki } from './MenuProductArea';
 
-export function NavigationMenuMobile() {
+type Props = {
+	boletosNavData: NavLinks;
+	chamadosNavData: NavLinks;
+};
+
+export function NavigationMenuMobile({
+	boletosNavData,
+	chamadosNavData,
+}: Props) {
 	const { lock, unlock } = useScrollLock({
 		autoLock: false,
 	});
@@ -62,34 +70,36 @@ export function NavigationMenuMobile() {
 					>
 						<NavMenu.Sub>
 							<NavMenu.NavigationMenuList className="flex flex-col justify-center gap-2 px-4">
-								{extraLinks.map((item) => {
-									if (item.isProductsLink) {
+								{[...extraLinks, boletosNavData, chamadosNavData].map(
+									(item) => {
+										if (item.isProductsLink) {
+											return (
+												<NavMenuItem key={item.id} className="relative">
+													<NavMenu.NavigationMenuTrigger className="relative -left-10 -skew-x-12 rounded-r-md bg-issYellow px-12 py-3 pr-24 text-black">
+														<div className="skew-x-12 text-left">Produtos</div>
+													</NavMenu.NavigationMenuTrigger>
+
+													<NavMenu.NavigationMenuContent className="left-0 -ml-8 mt-1 rounded-md border bg-gray-100">
+														<ul className="flex flex-col gap-3 divide-y-2 py-2 md:w-[400px] lg:w-[500px]">
+															<li className="row-span-3 flex-1">
+																<BrandMimaki />
+															</li>
+															<li className="row-span-3 flex-1">
+																<Brand4P />
+															</li>
+														</ul>
+													</NavMenu.NavigationMenuContent>
+												</NavMenuItem>
+											);
+										}
+
 										return (
-											<NavMenuItem key={item.id} className="relative">
-												<NavMenu.NavigationMenuTrigger className="relative -left-10 -skew-x-12 rounded-r-md bg-issYellow px-12 py-3 pr-24 text-black">
-													<div className="skew-x-12 text-left">Produtos</div>
-												</NavMenu.NavigationMenuTrigger>
-
-												<NavMenu.NavigationMenuContent className="left-0 -ml-8 mt-1 rounded-md border bg-gray-100">
-													<ul className="flex flex-col gap-3 divide-y-2 py-2 md:w-[400px] lg:w-[500px]">
-														<li className="row-span-3 flex-1">
-															<BrandMimaki />
-														</li>
-														<li className="row-span-3 flex-1">
-															<Brand4P />
-														</li>
-													</ul>
-												</NavMenu.NavigationMenuContent>
-											</NavMenuItem>
+											<NavMenuLink key={item.id} href={item.href}>
+												{item.title}
+											</NavMenuLink>
 										);
-									}
-
-									return (
-										<NavMenuLink key={item.id} href={item.href}>
-											{item.title}
-										</NavMenuLink>
-									);
-								})}
+									},
+								)}
 							</NavMenu.NavigationMenuList>
 						</NavMenu.Sub>
 					</NavMenu.NavigationMenuContent>

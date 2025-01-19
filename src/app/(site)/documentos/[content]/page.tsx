@@ -23,20 +23,6 @@ export default async function DocumentsView({ params }: Props) {
 			<RawToMarkdown
 				text={data.attributes[slug.replace(/-/g, '_')]}
 				className={'mx-auto max-w-page bg-white p-24 text-justify leading-9'}
-				components={{
-					h1: ({ children, className, ...props }) => {
-						return (
-							<h1
-								className={
-									'!rounded !bg-muted !p-1 !px-4 !text-base !font-semibold'
-								}
-								{...props}
-							>
-								{children}
-							</h1>
-						);
-					},
-				}}
 			/>
 		</div>
 	);
