@@ -10,6 +10,7 @@ import { Separator } from '../ui/separator';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { api } from '@/company-api/api';
 import { WithPagination } from '@/@types/api';
+import { ensureHttps } from '@/lib/utils';
 
 type TSocialLink = {
 	id: number;
@@ -50,7 +51,7 @@ const Footer = async () => {
 						<ul className="flex w-full justify-between gap-2">
 							{socials.map(({ id, attributes: social }) => (
 								<li key={String(id)}>
-									<a href={social.link} target="_blank">
+									<a href={ensureHttps(social.link)} target="_blank">
 										{getSocialIcon(social.rede, 'h-5 w-5 fill-white')}
 									</a>
 								</li>
@@ -99,14 +100,14 @@ const Footer = async () => {
 
 				<div className="mx-auto my-4 flex items-center space-x-2 text-center text-sm text-white">
 					<Link
-						href="#"
+						href="/documentos/termo-de-uso"
 						className="opacity-60 hover:underline hover:opacity-90"
 					>
 						Termos de Uso
 					</Link>
 					<Separator className="h-4 opacity-60" orientation="vertical" />
 					<Link
-						href="#"
+						href="/documentos/politica-privacidade"
 						className="opacity-60 hover:underline hover:opacity-90"
 					>
 						Política de Privacidade
@@ -133,7 +134,11 @@ const Footer = async () => {
 					<ul className="flex w-full flex-col justify-between gap-8">
 						{socials.map(({ id, attributes: social }) => (
 							<li key={String(id)}>
-								<Link href={social.link} title={social.rede} target="_blank">
+								<Link
+									href={ensureHttps(social.link)}
+									title={social.rede}
+									target="_blank"
+								>
 									{getSocialIcon(social.rede, 'h-7 w-7 fill-slate-500')}
 								</Link>
 							</li>
