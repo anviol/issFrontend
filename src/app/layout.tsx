@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Poppins } from 'next/font/google';
 
 import './globals.css';
+import { CookieConsentComponent } from '@/components/CookieConsent';
 
 export const metadata: Metadata = {
 	title: 'ISS Comércio',
@@ -22,6 +23,7 @@ export default function RootLayout({
 	return (
 		<html lang="pt-BR">
 			<body className={`${poppins.className} antialiased`}>{children}</body>
+			<CookieConsentComponent />
 		</html>
 	);
 }
