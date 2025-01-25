@@ -24,7 +24,7 @@ export const CarouselClient = ({ data }: { data: TBanners[] }) => {
 					>
 						<Image
 							width={1200}
-							height={50}
+							height={550}
 							src={`${(process.env.NEXT_PUBLIC_API_URL || '') + item.attributes.imagem.data?.attributes.url || ''}`}
 							alt={item.attributes.titulo || ''}
 							className="h-auto w-svw overflow-hidden object-fill object-center md:rounded-2xl"
@@ -33,7 +33,7 @@ export const CarouselClient = ({ data }: { data: TBanners[] }) => {
 				))}
 			</CarouselContent>
 
-			<div className="flex justify-center">
+			<div className="hidden justify-center md:flex">
 				<Dots />
 			</div>
 		</Carousel>

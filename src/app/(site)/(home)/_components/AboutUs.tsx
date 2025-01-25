@@ -22,7 +22,7 @@ const AboutUs = () => {
 				<MoreButton href="/sobre" className="mt-auto" />
 			</div>
 
-			<div className="flex h-full flex-[2] items-end justify-end pr-2 sm:-mt-10">
+			<div className="hidden h-full flex-[2] items-end justify-end pr-2 sm:-mt-10 md:flex">
 				<div className="z-10 mb-[5%] h-[70%] w-[60%] max-w-[60%] translate-x-1/2 overflow-hidden rounded-xl lg:w-[40%]">
 					<Image
 						height={500}

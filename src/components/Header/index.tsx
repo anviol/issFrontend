@@ -4,6 +4,7 @@ import { NavigationMenu } from './NavMenu';
 import { NavigationMenuMobile } from './NavMenuMobile';
 import { api } from '@/company-api/api';
 import { NavLinks } from './menu-links';
+import { WarningMessage } from '../WarningMessage';
 
 type ThirdPartyLink = {
 	data: {
@@ -18,31 +19,34 @@ const Header = async () => {
 	const { boletosNavData, chamadosNavData } = await getData();
 
 	return (
-		<header className="sticky left-0 right-0 top-0 z-20 flex items-center justify-center bg-black/90">
-			<NavigationMenuMobile
-				boletosNavData={boletosNavData}
-				chamadosNavData={chamadosNavData}
-			/>
+		<header className="sticky left-0 right-0 top-0 z-20">
+			<div className="flex items-center justify-center bg-black/90">
+				<NavigationMenuMobile
+					boletosNavData={boletosNavData}
+					chamadosNavData={chamadosNavData}
+				/>
 
-			<div className="flex flex-1 justify-center p-4">
-				<Link href={'/'}>
-					<Image
-						width={512}
-						height={512}
-						src="/assets/ISS (Branca).svg"
-						alt="Lôgo ISS"
-						priority
-						className="aspect-auto w-16 md:w-28 md:min-w-16"
-					/>
-				</Link>
+				<div className="flex flex-1 justify-center p-4">
+					<Link href={'/'}>
+						<Image
+							width={512}
+							height={512}
+							src="/assets/ISS (Branca).svg"
+							alt="Lôgo ISS"
+							priority
+							className="aspect-auto w-16 md:w-28 md:min-w-16"
+						/>
+					</Link>
+				</div>
+
+				<NavigationMenu
+					boletosNavData={boletosNavData}
+					chamadosNavData={chamadosNavData}
+				/>
+
+				<div className="flex justify-center p-6 md:flex-1"></div>
 			</div>
-
-			<NavigationMenu
-				boletosNavData={boletosNavData}
-				chamadosNavData={chamadosNavData}
-			/>
-
-			<div className="flex justify-center p-6 md:flex-1"></div>
+			<WarningMessage />
 		</header>
 	);
 };

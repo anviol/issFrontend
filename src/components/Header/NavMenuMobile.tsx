@@ -66,7 +66,7 @@ export function NavigationMenuMobile({
 
 					<NavMenu.NavigationMenuContent
 						style={{ top: height * 1, paddingBottom: height * 2 }}
-						className="absolute left-0 h-dvh w-auto min-w-[100vw] overflow-y-auto bg-gray-200 pt-12 text-black"
+						className="absolute left-0 z-50 h-dvh w-auto min-w-[100vw] overflow-y-auto bg-gray-200 pt-12 text-black"
 					>
 						<NavMenu.Sub>
 							<NavMenu.NavigationMenuList className="flex flex-col justify-center gap-2 px-4">

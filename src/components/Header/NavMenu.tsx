@@ -22,7 +22,7 @@ export function NavigationMenu({ boletosNavData, chamadosNavData }: Props) {
 									<div className="skew-x-12">{item.title}</div>
 								</NavMenu.NavigationMenuTrigger>
 
-								<NavMenu.NavigationMenuContent className="absolute -left-1 mt-7 overflow-hidden rounded-md bg-white [box-shadow:0_0_15px_4px_#00000040]">
+								<NavMenu.NavigationMenuContent className="absolute -left-1 z-50 mt-7 overflow-hidden rounded-md bg-white [box-shadow:0_0_15px_4px_#00000040]">
 									<ul className="flex w-[600px] flex-col divide-y p-0">
 										<li className="flex-1">
 											<BrandMimaki />
