@@ -7,3 +7,9 @@ export type TFormOptions = {
 		};
 	}[];
 };
+
+export type SendEmailResponse = {
+	info: {
+		response: string;
+	};
+};

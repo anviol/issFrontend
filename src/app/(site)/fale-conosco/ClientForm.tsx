@@ -1,9 +1,11 @@
 'use client';
 
+import { useCallback } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { PatternFormat } from 'react-number-format';
+import { toast } from 'react-toastify';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -18,7 +20,13 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Section } from '../(home)/_components/Section';
 import { Label } from '@/components/ui/label';
-import { TFormOptions } from '@/@types/form';
+import { SendEmailResponse, TFormOptions } from '@/@types/form';
+
+type BuiltSchema = {
+	email: string;
+	message: string;
+	[key: string]: string;
+};
 
 type Props = {
 	fields: TFormOptions['data'];
@@ -33,8 +41,41 @@ export const ClientForm = ({ fields, product }: Props) => {
 	});
 
 	function onSubmit(values: z.infer<typeof formSchema>) {
-		console.log(values);
+		toast.promise(sendMail(values as BuiltSchema), {
+			pending: 'Enviando sua requisição',
+			success: 'Requisição enviada com sucesso!',
+			error:
+				'Não foi possível enviar sua requisição. Por favor, tente novamente.',
+		});
 	}
+
+	const sendMail = useCallback(async (props: BuiltSchema) => {
+		const { email, ...formData } = props;
+
+		const body = new FormData();
+
+		Object.entries(formData).forEach(([key, value]) => {
+			body.append(key, value);
+		});
+
+		body.append('Produto', product || '');
+
+		const resp = (await fetch(
+			`/api/send-email`,
+			{
+				method: 'POST',
+				body: body
+			}
+		));
+
+		const respJson: SendEmailResponse & { error: string } = await resp.json();
+
+		const { info, error } = respJson;
+
+		if (error || !info.response.startsWith('250')) {
+			throw new Error('Erro ao enviar email');
+		}
+	}, []);
 
 	return (
 		<Section title="Entre em contato conosco" className="pb-40">
@@ -47,6 +88,23 @@ export const ClientForm = ({ fields, product }: Props) => {
 
 			<Form {...form}>
 				<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
+					<FormField
+						control={form.control}
+						name="email"
+						render={({ field }) => (
+							<FormItem className="flex h-full flex-col space-y-1">
+								<FormLabel>
+									Email <span className="text-red-500"> *</span>
+								</FormLabel>
+								<FormControl>
+									<Input placeholder={'Email'} {...field} />
+								</FormControl>
+
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+
 					{fields.map(({ id, attributes }) => {
 						const { campo, obrigatorio } = attributes;
 						const placeholder =
@@ -92,7 +150,9 @@ export const ClientForm = ({ fields, product }: Props) => {
 						name="message"
 						render={({ field }) => (
 							<FormItem className="flex h-full flex-col space-y-1">
-								<FormLabel>Mensagem</FormLabel>
+								<FormLabel>
+									Mensagem <span className="text-red-500"> *</span>
+								</FormLabel>
 								<FormControl>
 									<Textarea
 										className="min-h-44 max-w-full"
@@ -120,7 +180,18 @@ export const ClientForm = ({ fields, product }: Props) => {
 };
 
 function buildSchema(fields: TFormOptions['data']) {
-	const schemaShape: Record<string, z.ZodTypeAny> = {};
+	const schemaShape: Record<string, z.ZodTypeAny> = {
+		email: z.string({ message: 'campo obrigatório' }).email(`e-mail inválido.`),
+		message: z
+			.string({ message: 'campo obrigatório' })
+			.min(10, {
+				message: 'Deve conter pelo menos 10 caracteres.',
+			})
+			.max(250, {
+				message: 'Deve conter no máximo 250 caracteres.',
+			})
+	};
+
 	const phoneNumberRegex = /^\(?\d{2}\)?\s?(9?\d{4})-?\d{4}$/;
 
 	fields.forEach(({ attributes }) => {
@@ -129,11 +200,6 @@ function buildSchema(fields: TFormOptions['data']) {
 		const { campo, obrigatorio } = attributes;
 
 		switch (campo) {
-			case 'E-mail':
-				schema = z
-					.string({ message: 'campo obrigatório' })
-					.email(`e-mail inválido.`);
-				break;
 			case 'Telefone':
 			case 'Whatsapp':
 				schema = z
@@ -146,16 +212,6 @@ function buildSchema(fields: TFormOptions['data']) {
 
 		schemaShape[campo] = obrigatorio ? schema : schema.optional();
 	});
-
-	schemaShape['message'] = z
-		.string()
-		.min(10, {
-			message: 'Deve conter pelo menos 10 caracteres.',
-		})
-		.max(250, {
-			message: 'Deve conter no máximo 250 caracteres.',
-		})
-		.optional();
 
 	return z.object(schemaShape);
 }
