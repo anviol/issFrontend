@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { GoogleAnalytics } from '@next/third-parties/google';
 import { Poppins } from 'next/font/google';
 
 import './globals.css';
@@ -24,6 +25,7 @@ export default function RootLayout({
 		<html lang="pt-BR">
 			<body className={`${poppins.className} antialiased`}>{children}</body>
 			<CookieConsentComponent />
+			<GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA || ''} />
 		</html>
 	);
 }

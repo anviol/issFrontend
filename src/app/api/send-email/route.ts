@@ -1,26 +1,30 @@
 import { NextResponse } from 'next/server';
 import { SendEmailResponse } from '@/@types/form';
 import { api } from '@/company-api/api';
+import * as contactTemplate from '@/lib/templates/contact';
 
 export async function POST(
 	request: Request,
 ): Promise<NextResponse<SendEmailResponse>> {
 	const formData = await request.formData();
-	let html = `<p>Mensagem enviada pelo formulário do site.</p>`;
+	const greeting = `<p>Mensagem enviada pelo formulário do site.</p>`;
 
-	const product = formData.get('Produto');
+	const templateData: Record<string, unknown> = {};
 
 	formData.forEach((value, key) => {
 		if (key !== 'message' && key !== 'Produto') {
-			html += `<p><strong>${key}</strong>: ${value === 'undefined' ? 'Não informado' : value}</p>`;
+			templateData[key] = value === 'undefined' ? 'Não informado' : value;
 		}
 	});
 
+	const product = formData.get('Produto');
 	if (product) {
-		html += `<p><strong>Produto</strong>: ${product}</p>`;
+		templateData['Produto'] = product;
 	}
 
-	html += `<p><strong>Mensagem</strong>: ${formData.get('message') || ''}</p>`;
+	const message = `<p><strong>Mensagem: </strong>${formData.get('message')}</p>`;
+
+	const template = contactTemplate.createTemplate(templateData);
 
 	const body = new FormData();
 	body.append('to', process.env.EMAIL_TO || '');
@@ -28,7 +32,7 @@ export async function POST(
 		'subject',
 		`${product ? 'Solicitação de Orçamento via Site' : 'Solicitação de Contato via Site'} (${new Date().toLocaleString()})`,
 	);
-	body.append('message', html);
+	body.append('message', greeting + template + message);
 
 	const resp = await api<SendEmailResponse>({
 		url: '/email/send',

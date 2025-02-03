@@ -49,33 +49,33 @@ export const ClientForm = ({ fields, product }: Props) => {
 		});
 	}
 
-	const sendMail = useCallback(async (props: BuiltSchema) => {
-		const { email, ...formData } = props;
+	const sendMail = useCallback(
+		async (props: BuiltSchema) => {
+			const { email, ...formData } = props;
 
-		const body = new FormData();
+			const body = new FormData();
 
-		Object.entries(formData).forEach(([key, value]) => {
-			body.append(key, value);
-		});
+			Object.entries(formData).forEach(([key, value]) => {
+				body.append(key, value);
+			});
 
-		body.append('Produto', product || '');
+			body.append('Produto', product || '');
 
-		const resp = (await fetch(
-			`/api/send-email`,
-			{
+			const resp = await fetch(`/api/send-email`, {
 				method: 'POST',
-				body: body
+				body: body,
+			});
+
+			const respJson: SendEmailResponse & { error: string } = await resp.json();
+
+			const { info, error } = respJson;
+
+			if (error || !info.response.startsWith('250')) {
+				throw new Error('Erro ao enviar email');
 			}
-		));
-
-		const respJson: SendEmailResponse & { error: string } = await resp.json();
-
-		const { info, error } = respJson;
-
-		if (error || !info.response.startsWith('250')) {
-			throw new Error('Erro ao enviar email');
-		}
-	}, []);
+		},
+		[product],
+	);
 
 	return (
 		<Section title="Entre em contato conosco" className="pb-40">
@@ -189,7 +189,7 @@ function buildSchema(fields: TFormOptions['data']) {
 			})
 			.max(250, {
 				message: 'Deve conter no máximo 250 caracteres.',
-			})
+			}),
 	};
 
 	const phoneNumberRegex = /^\(?\d{2}\)?\s?(9?\d{4})-?\d{4}$/;
