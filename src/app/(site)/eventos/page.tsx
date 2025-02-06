@@ -10,7 +10,7 @@ type TEventImages = {
 		id: number;
 		attributes: {
 			nome_evento: string;
-			Fotos: {
+			fotos: {
 				data: NonNullable<TImage['data']>[];
 			};
 		};
@@ -45,7 +45,7 @@ async function getData() {
 	const images: Image[] = [];
 
 	data.forEach(({ attributes: evento }) => {
-		evento.Fotos.data.forEach(({ attributes: image }) => {
+		evento.fotos.data.forEach(({ attributes: image }) => {
 			images.push({
 				height: image.height,
 				width: image.width,
