@@ -1,4 +1,6 @@
 import { notFound } from 'next/navigation';
+import Link from 'next/link';
+import Image from 'next/image';
 
 import { WithPagination } from '@/@types/api';
 import { TImage } from '@/@types/products';
@@ -10,8 +12,6 @@ import {
 	CardHeader,
 	CardTitle,
 } from '@/components/ui/card';
-
-import Link from 'next/link';
 
 type Props = {
 	params: { brand: string };
@@ -90,13 +90,15 @@ export default async function BrandCatalog({ params: { brand } }: Props) {
 						<h3 className="mb-4 rounded border-t-4 border-issYellow py-3 text-xl font-medium">
 							{categoryName}
 						</h3>
-						<ul className="grid grid-cols-2 gap-8">
+						<ul className="grid gap-8 md:grid-cols-2">
 							{produtos.map(({ id, attributes: att }) => {
 								return (
 									<li key={String(id)}>
 										<Link href={brand + '/' + att.nome.replace(' ', '-')}>
 											<Card className="flex max-h-72 transition-transform hover:scale-[1.03]">
-												<img
+												<Image
+													height={att.principal.data?.attributes.height}
+													width={att.principal.data?.attributes.width}
 													src={
 														(process.env.NEXT_PUBLIC_API_URL || '') +
 														att.principal.data?.attributes.url
@@ -104,7 +106,7 @@ export default async function BrandCatalog({ params: { brand } }: Props) {
 													alt={
 														att.principal.data?.attributes.alternativeText ?? ''
 													}
-													className={`h-[${att.principal.data?.attributes.height}] w-[${att.principal.data?.attributes.width}] max-h-60 max-w-60 border-r object-contain`}
+													className={`h-52 w-40 max-w-full border-r object-contain p-1 lg:w-52`}
 												/>
 												<div className="flex flex-col">
 													<CardHeader>

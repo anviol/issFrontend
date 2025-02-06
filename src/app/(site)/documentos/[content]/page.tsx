@@ -22,7 +22,9 @@ export default async function DocumentsView({ params }: Props) {
 		<div className="bg-pageBgGray">
 			<RawToMarkdown
 				text={data.attributes[slug.replace(/-/g, '_')]}
-				className={'mx-auto max-w-page bg-white p-24 text-justify leading-9'}
+				className={
+					'mx-auto max-w-page bg-white px-6 py-24 text-justify leading-9 md:px-24'
+				}
 			/>
 		</div>
 	);
