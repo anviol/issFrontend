@@ -27,7 +27,7 @@ const AboutUs = () => {
 					<Image
 						height={500}
 						width={500}
-						src="https://www.isscomercio.com.br/images/sobre-2.jpg"
+						src="/sobre-img-2.jpg"
 						alt=""
 						className="object-cover transition-transform duration-500 hover:-rotate-3 hover:scale-125"
 					/>
@@ -36,7 +36,7 @@ const AboutUs = () => {
 					<Image
 						height={500}
 						width={500}
-						src="https://www.isscomercio.com.br/images/empresa/sobre-nos-1.jpg"
+						src="/sobre-img-1.jpg"
 						alt=""
 						className="h-full object-cover transition-transform duration-500 hover:translate-x-10 hover:rotate-6 hover:scale-150"
 					/>

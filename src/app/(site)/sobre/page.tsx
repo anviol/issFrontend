@@ -21,7 +21,7 @@ export default async function AboutUs() {
 				className="mb-32 h-72 w-full bg-cover bg-fixed bg-no-repeat [background-position:0%_20%]"
 				style={{
 					backgroundImage:
-						"linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('https://www.isscomercio.com.br/images/contato-01.jpg')",
+						"linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/contato-01.jpg')",
 				}}
 			/>
 
