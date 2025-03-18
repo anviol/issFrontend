@@ -5,8 +5,23 @@ import { ClientForm } from './Form';
 import { Footer } from '@/components/Footer';
 import './shape-divider.css';
 
+type TPageContent = {
+	data: {
+		id: number;
+		attributes: {
+			titulo: string;
+			texto: string;
+			item1: string;
+			item2: string;
+			item3: string;
+			item4: string;
+		};
+	};
+};
+
 export default async function LandingPage() {
-	const data = await getDate();
+	const formData = await getFormData();
+	const { attributes: pageContent } = await getPageContent();
 
 	return (
 		<div className="flex min-h-screen flex-col items-center bg-slate-50">
@@ -18,15 +33,10 @@ export default async function LandingPage() {
 			<div className="mb-32 mt-8 flex h-min max-w-page flex-col gap-4 gap-y-16 md:flex-row">
 				<div className="flex-1 p-2 leading-8 md:max-w-[50%] md:p-8">
 					<h2 className="mb-8 text-justify text-2xl font-semibold">
-						Lorem ipsum dolor sit amet consectetur adipisicing elit.
+						{pageContent.titulo}
 					</h2>
 
-					<p className="text-justify">
-						Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis
-						ipsa dolor quisquam! Aspernatur temporibus aut voluptas non minima
-						ut, culpa molestias odit consequatur adipisci, iste illum, eum
-						maiores dolorum veritatis.
-					</p>
+					<p className="text-justify">{pageContent.texto}</p>
 
 					<ul className="mt-12 flex flex-col justify-between gap-8">
 						<li className="flex items-center gap-2">
@@ -35,9 +45,7 @@ export default async function LandingPage() {
 								alt="Preços diferenciado"
 								className="aspect-square w-[20%] rounded-full shadow-[-5px_2px_0px_#fbba16]"
 							/>
-							<span className="flex-1">
-								Lorem ipsum dolor sit amet consectetur adipisicing elit.
-							</span>
+							<span className="flex-1">{pageContent.item1}</span>
 						</li>
 						<li className="flex items-center gap-2">
 							<img
@@ -45,9 +53,7 @@ export default async function LandingPage() {
 								alt="Preços diferenciado"
 								className="aspect-square w-[20%] rounded-full shadow-[-5px_2px_0px_#fbba16]"
 							/>
-							<span className="flex-1">
-								Lorem ipsum dolor sit amet consectetur adipisicing elit.
-							</span>
+							<span className="flex-1">{pageContent.item2}</span>
 						</li>
 						<li className="flex items-center gap-2">
 							<img
@@ -55,19 +61,7 @@ export default async function LandingPage() {
 								alt="Preços diferenciado"
 								className="aspect-square w-[20%] rounded-full shadow-[-5px_2px_0px_#fbba16]"
 							/>
-							<span className="flex-1">
-								Lorem ipsum dolor sit amet consectetur adipisicing elit.
-							</span>
-						</li>
-						<li className="flex items-center gap-2">
-							<img
-								src={'/assets/drawings/printing.svg'}
-								alt="Preços diferenciado"
-								className="aspect-square w-[20%] rounded-full shadow-[-5px_2px_0px_#fbba16]"
-							/>
-							<span className="flex-1">
-								Lorem ipsum dolor sit amet consectetur adipisicing elit.
-							</span>
+							<span className="flex-1">{pageContent.item3}</span>
 						</li>
 					</ul>
 				</div>
@@ -78,7 +72,7 @@ export default async function LandingPage() {
 						atender sua necessidade
 					</span>
 
-					<ClientForm fields={data} />
+					<ClientForm fields={formData} />
 				</div>
 			</div>
 
@@ -89,9 +83,26 @@ export default async function LandingPage() {
 	);
 }
 
-const getDate = async () => {
+const getFormData = async () => {
 	const { error, data } = await api<TFormOptions>({
 		url: '/formularios',
+		strapiQueryParams: ['populate=*', 'pagination[limit]=1000'],
+		fetchOptions: {
+			cache: 'no-store',
+		},
+	});
+
+	if (error) {
+		if (error.status === 404) return notFound();
+		throw new Error(error.message);
+	}
+
+	return data;
+};
+
+const getPageContent = async () => {
+	const { error, data } = await api<TPageContent>({
+		url: '/landing-page',
 		strapiQueryParams: ['populate=*', 'pagination[limit]=1000'],
 		fetchOptions: {
 			cache: 'no-store',

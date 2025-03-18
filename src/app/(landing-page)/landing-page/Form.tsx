@@ -1,5 +1,7 @@
 'use client';
 
+import { useCallback } from 'react';
+import { toast } from 'react-toastify';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -14,7 +16,13 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { TFormOptions } from '@/@types/form';
+import { SendEmailResponse, TFormOptions } from '@/@types/form';
+
+type BuiltSchema = {
+	email: string;
+	message: string;
+	[key: string]: string;
+};
 
 type Props = {
 	fields: TFormOptions['data'];
@@ -28,8 +36,36 @@ export const ClientForm = ({ fields }: Props) => {
 	});
 
 	function onSubmit(values: z.infer<typeof formSchema>) {
-		console.log(values);
+		toast.promise(sendMail(values as BuiltSchema), {
+			pending: 'Enviando sua requisição',
+			success: 'Requisição enviada com sucesso!',
+			error:
+				'Não foi possível enviar sua requisição. Por favor, tente novamente.',
+		});
 	}
+
+	const sendMail = useCallback(async (props: BuiltSchema) => {
+		const { email, ...formData } = props;
+
+		const body = new FormData();
+
+		Object.entries(formData).forEach(([key, value]) => {
+			body.append(key, value);
+		});
+
+		const resp = await fetch(`/api/send-email`, {
+			method: 'POST',
+			body: body,
+		});
+
+		const respJson: SendEmailResponse & { error: string } = await resp.json();
+
+		const { info, error } = respJson;
+
+		if (error || !info.response.startsWith('250')) {
+			throw new Error('Erro ao enviar email');
+		}
+	}, []);
 
 	return (
 		<Form {...form}>
@@ -71,7 +107,7 @@ export const ClientForm = ({ fields }: Props) => {
 							<FormLabel>Mensagem</FormLabel>
 							<FormControl>
 								<Textarea
-									className="min-h-44 max-w-full"
+									className="min-h-32 max-w-full"
 									placeholder="Digite sua mensagem"
 									{...field}
 								/>

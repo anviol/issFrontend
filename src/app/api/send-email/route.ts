@@ -7,8 +7,6 @@ export async function POST(
 	request: Request,
 ): Promise<NextResponse<SendEmailResponse>> {
 	const formData = await request.formData();
-	const greeting = `<p>Mensagem enviada pelo formulário do site.</p>`;
-
 	const templateData: Record<string, unknown> = {};
 
 	formData.forEach((value, key) => {
@@ -32,6 +30,8 @@ export async function POST(
 		'subject',
 		`${product ? 'Solicitação de Orçamento via Site' : 'Solicitação de Contato via Site'} (${new Date().toLocaleString()})`,
 	);
+
+	const greeting = `<p>Mensagem enviada pelo formulário do site.</p>`;
 	body.append('message', greeting + template + message);
 
 	const resp = await api<SendEmailResponse>({
