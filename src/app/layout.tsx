@@ -24,10 +24,12 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="pt-BR">
-			<body className={`${poppins.className} antialiased`}>{children}</body>
-			<CookieConsentComponent />
-			<GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA || ''} />
-			<ToastContainer position="top-center" theme="colored" />
+			<body className={`${poppins.className} antialiased`}>
+				{children}
+				<CookieConsentComponent />
+				<GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA || ''} />
+				<ToastContainer position="top-center" theme="colored" />
+			</body>
 		</html>
 	);
 }
