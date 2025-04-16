@@ -1,7 +1,8 @@
 'use client';
 import { useRef, useState } from 'react';
 import { CircleX } from 'lucide-react';
-import { Gallery, GalleryProps } from 'react-grid-gallery';
+import Image from 'next/image';
+import { Gallery, Image as IImage } from 'react-grid-gallery';
 import { useScrollLock, useOnClickOutside } from 'usehooks-ts';
 
 import {
@@ -13,7 +14,19 @@ import {
 	Dots,
 } from '@/components/ui/carousel';
 
-export const EventGallery = ({ images }: GalleryProps) => {
+type Props = {
+	images: {
+		small: IImage[];
+		medium: {
+			height: number;
+			width: number;
+			src: string;
+			alt: string;
+		}[];
+	};
+};
+
+export const EventGallery = ({ images }: Props) => {
 	const { lock, unlock } = useScrollLock({
 		autoLock: false,
 	});
@@ -28,12 +41,13 @@ export const EventGallery = ({ images }: GalleryProps) => {
 	return (
 		<div className="max-w-full overflow-x-hidden">
 			<Gallery
-				images={images}
+				images={images.small}
 				onClick={(idx) => {
 					setImgToOpen(idx);
 					setOpenModal(true);
 					lock();
 				}}
+				enableImageSelection={false}
 			/>
 
 			{openModal && (
@@ -56,12 +70,14 @@ export const EventGallery = ({ images }: GalleryProps) => {
 						}}
 					>
 						<CarouselContent className="max-h-[70vh]">
-							{images.map((image, idx) => {
+							{images.medium.map((image, idx) => {
 								return (
 									<CarouselItem key={String(idx)} className="bg-black">
-										<img
+										<Image
 											src={image.src}
 											alt={image.alt || ''}
+											width={image.width}
+											height={image.height}
 											className="h-full w-full object-contain"
 										/>
 									</CarouselItem>

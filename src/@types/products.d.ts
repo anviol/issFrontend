@@ -1,3 +1,9 @@
+type ImageFormat = {
+	url: string;
+	width: number;
+	height: number;
+};
+
 export type TImage = {
 	data: {
 		id: number;
@@ -8,6 +14,11 @@ export type TImage = {
 			height: number;
 			url: string;
 			previewUrl: string | null;
+			formats: {
+				large: ImageFormat;
+				small: ImageFormat;
+				medium: ImageFormat;
+			};
 		};
 	} | null;
 };
