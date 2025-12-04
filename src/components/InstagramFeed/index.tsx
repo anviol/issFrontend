@@ -39,11 +39,12 @@ const InstagramFeed = async () => {
 const getData = async () => {
 	const { data, error } = await api<WithPagination<InstagramMedia>>({
 		url: '/instagrams',
+		strapiQueryParams: ['?sort=id:desc'],
 		fetchOptions: {
 			cache: 'no-store',
 		},
 	});
-
+	
 	if (error) {
 		if (error.status === 404) return [];
 	}

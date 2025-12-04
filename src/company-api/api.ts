@@ -23,6 +23,7 @@ export async function api<T = ResponseData>(options: {
 	const resp = await fetch(baseUrl.toString(), {
 		headers: {
 			Authorization: `Bearer ${process.env.API_AUTH_TOKEN}`,
+			'cache-control': 'no-cache',
 		},
 		...fetchOptions,
 	});
