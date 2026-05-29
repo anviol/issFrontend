@@ -21,6 +21,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Section } from '../(home)/_components/Section';
 import { Label } from '@/components/ui/label';
 import { SendEmailResponse, TFormOptions } from '@/@types/form';
+import { buildSchema, maskByInputName } from './form-utils';
 
 type BuiltSchema = {
 	email: string;
@@ -179,61 +180,3 @@ export const ClientForm = ({ fields, product }: Props) => {
 	);
 };
 
-function buildSchema(fields: TFormOptions['data']) {
-	const schemaShape: Record<string, z.ZodTypeAny> = {
-		email: z.string({ message: 'campo obrigatório' }).email(`e-mail inválido.`),
-		message: z
-			.string({ message: 'campo obrigatório' })
-			.min(10, {
-				message: 'Deve conter pelo menos 10 caracteres.',
-			})
-			.max(250, {
-				message: 'Deve conter no máximo 250 caracteres.',
-			}),
-	};
-
-	const phoneNumberRegex = /^\(?\d{2}\)?\s?(9?\d{4})-?\d{4}$/;
-
-	fields.forEach(({ attributes }) => {
-		let schema;
-
-		const { campo, obrigatorio } = attributes;
-
-		switch (campo) {
-			case 'Telefone':
-			case 'Whatsapp':
-				schema = z
-					.string({ message: 'campo obrigatório' })
-					.regex(phoneNumberRegex, `formato de telefone inválido`);
-				break;
-			default:
-				schema = z.string({ message: 'campo obrigatório' });
-		}
-
-		schemaShape[campo] = obrigatorio ? schema : schema.optional();
-	});
-
-	return z.object(schemaShape);
-}
-
-// receive input name and return input mask pattern based on the name
-function maskByInputName(inputName: string) {
-	const phoneMask = '(##) #####-####';
-	const cpfMask = '###.###.###-##';
-	const cnpjMask = '##.###.###/####-##';
-	const cepMask = '#####-###';
-
-	switch (inputName.toLowerCase()) {
-		case 'telefone':
-		case 'whatsapp':
-			return phoneMask;
-		case 'cpf':
-			return cpfMask;
-		case 'cnpj':
-			return cnpjMask;
-		case 'cep':
-			return cepMask;
-		default:
-			return '';
-	}
-}
