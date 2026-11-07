@@ -57,10 +57,13 @@ async function getData() {
 
 	data.forEach(({ attributes: evento }) => {
 		evento.fotos.data.forEach(({ attributes: image }) => {
+			const small = image.formats?.small ?? image;
+			const medium = image.formats?.medium ?? image;
+
 			images.small.push({
-				height: image.formats.small.height,
-				width: image.formats.small.width,
-				src: `${process.env.NEXT_PUBLIC_API_URL}${image.formats.small.url}`,
+				height: small.height,
+				width: small.width,
+				src: `${process.env.NEXT_PUBLIC_API_URL}${small.url}`,
 				customOverlay: (
 					<div className="flex h-full flex-col justify-end">
 						<div className="bg-white/80">
@@ -70,8 +73,9 @@ async function getData() {
 				),
 			});
 			images.medium.push({
-				...image.formats.medium,
-				src: `${process.env.NEXT_PUBLIC_API_URL}${image.formats.medium.url}`,
+				height: medium.height,
+				width: medium.width,
+				src: `${process.env.NEXT_PUBLIC_API_URL}${medium.url}`,
 				alt: image.alternativeText || image.name,
 			});
 		});

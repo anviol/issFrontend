@@ -50,7 +50,7 @@ export default async function ProductDetail({ params: { slug } }: Props) {
 
 			<div className="mt-8 flex sm:justify-end md:mt-0">
 				<Link
-					href={`/fale-conosco/${product.nome}`}
+					href={`/fale-conosco/${encodeURIComponent(product.nome)}`}
 					className="flex w-full items-center justify-center gap-2 rounded-md bg-issYellow p-4 transition-all hover:brightness-90 sm:w-auto"
 				>
 					<Mail className="h-6 w-6" />
@@ -103,12 +103,15 @@ function disableTab(label: string, product: TProductAttributes) {
 }
 
 const getData = async (slug: string) => {
+	// O Next entrega o slug como veio na URL, com o espaço em %20.
+	const nome = decodeURIComponent(slug);
+
 	const { error, data } = await api<TProductAPI>({
 		url: '/produtos',
 		strapiQueryParams: [
 			'populate=*',
 			'pagination[limit]=1000',
-			`filters[nome][$eq]=${slug}`,
+			`filters[nome][\]=${encodeURIComponent(nome)}`,
 		],
 		fetchOptions: {
 			cache: 'no-store',
@@ -119,6 +122,8 @@ const getData = async (slug: string) => {
 		if (error.status === 404) return notFound();
 		throw new Error(error.message);
 	}
+
+	if (!data[0]) return notFound();
 
 	const { attributes } = data[0];
 	const usages: NonNullable<TImage['data']>[] = [];

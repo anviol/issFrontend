@@ -14,8 +14,13 @@ type Props = {
 	params: { content: string };
 };
 
+const documentos = ['termo-de-uso', 'politica-privacidade'];
+
 export default async function DocumentsView({ params }: Props) {
 	const { content: slug } = params;
+
+	if (!documentos.includes(slug)) return notFound();
+
 	const data = await getData(slug);
 
 	return (

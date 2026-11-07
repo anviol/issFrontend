@@ -94,7 +94,7 @@ export default async function BrandCatalog({ params: { brand } }: Props) {
 							{produtos.map(({ id, attributes: att }) => {
 								return (
 									<li key={String(id)}>
-										<Link href={brand + '/' + att.nome.replace(' ', '-')}>
+										<Link href={brand + '/' + encodeURIComponent(att.nome)}>
 											<Card className="flex max-h-72 transition-transform hover:scale-[1.03]">
 												<Image
 													height={att.principal.data?.attributes.height}

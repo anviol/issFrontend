@@ -14,7 +14,7 @@ export default async function Contact({
 		<div>
 			<ClientForm
 				fields={data}
-				product={(params.product && params.product[0]) || null}
+				product={params.product?.[0] ? decodeURIComponent(params.product[0]) : null}
 			/>
 		</div>
 	);

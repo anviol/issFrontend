@@ -14,11 +14,12 @@ export type TImage = {
 			height: number;
 			url: string;
 			previewUrl: string | null;
+			// O Strapi só gera os tamanhos menores que a foto original.
 			formats: {
-				large: ImageFormat;
-				small: ImageFormat;
-				medium: ImageFormat;
-			};
+				large?: ImageFormat;
+				small?: ImageFormat;
+				medium?: ImageFormat;
+			} | null;
 		};
 	} | null;
 };
