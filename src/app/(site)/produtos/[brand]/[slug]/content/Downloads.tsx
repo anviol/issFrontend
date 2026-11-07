@@ -7,6 +7,10 @@ type Props = {
 
 const iconClassName = 'h-6 w-6 min-w-6 text-muted-foreground';
 
+// O upload local do Strapi devolve caminho relativo, servido pelo host do Strapi.
+const fileUrl = (url: string) =>
+	url.startsWith('http') ? url : `${process.env.NEXT_PUBLIC_API_URL}${url}`;
+
 export const Downloads = ({ data }: Props) => {
 	return (
 		<div className="flex py-2">
@@ -27,7 +31,7 @@ export const Downloads = ({ data }: Props) => {
 									<td className="border p-4">
 										<a
 											className="flex items-center gap-2 underline [word-break:break-all]"
-											href={url}
+											href={fileUrl(url)}
 										>
 											{ext === '.pdf' ? (
 												<FileDown className={iconClassName} />

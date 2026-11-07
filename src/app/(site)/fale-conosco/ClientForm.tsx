@@ -55,6 +55,8 @@ export const ClientForm = ({ fields, product }: Props) => {
 
 			const body = new FormData();
 
+			body.append('E-mail', email);
+
 			Object.entries(formData).forEach(([key, value]) => {
 				body.append(key, value);
 			});

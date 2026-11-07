@@ -74,7 +74,7 @@ export default async function ProductDetail({ params: { slug } }: Props) {
 					<div className="min-h-96 pb-10 sm:px-4">
 						<TabsContent key={tabs[0].id} value={tabs[0].id}>
 							<MainContent
-								data={product.descricaoDetalhadaMD}
+								data={product.descricaoDetalhada}
 								usages={usages}
 								productName={`${product.serie}-${product.nome}`}
 							/>

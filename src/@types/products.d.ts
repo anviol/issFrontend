@@ -42,7 +42,7 @@ export type TProductAttributes = {
 	serie: string;
 	breveDecricao: string;
 	suprimentos: string | null;
-	descricaoDetalhadaMD: string;
+	descricaoDetalhada: string;
 	principal: TImage;
 	secundaria1: TImage;
 	secundaria2: TImage;
