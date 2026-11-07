@@ -8,6 +8,7 @@ import * as SocialIcons from '../SocialIcons';
 import { FooterSections } from './FooterSection';
 import { Separator } from '../ui/separator';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
+import { PreferencesButton } from '../CookieConsent/PreferencesButton';
 import { api } from '@/company-api/api';
 import { WithPagination } from '@/@types/api';
 import { ensureHttps } from '@/lib/utils';
@@ -113,6 +114,10 @@ const Footer = async () => {
 						Política de Privacidade
 					</Link>
 				</div>
+
+				<PreferencesButton className="mx-auto mb-4 text-sm text-white opacity-60 hover:underline hover:opacity-90">
+					Preferências de cookies
+				</PreferencesButton>
 
 				<address className="mx-auto flex gap-2 text-center opacity-70">
 					<MapPin className="hidden sm:block" />

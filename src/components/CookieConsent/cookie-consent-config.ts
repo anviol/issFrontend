@@ -2,12 +2,15 @@ import type { CookieConsentConfig } from 'vanilla-cookieconsent';
 
 const getConfig = () => {
 	const config: CookieConsentConfig = {
+		// Aumente ao criar uma categoria: quem já respondeu precisa ser perguntado de novo.
+		revision: 1,
 		cookie: {
 			name: 'cc_cookie',
 			domain: location.hostname,
 			path: '/',
 			sameSite: 'Lax',
-			expiresAfterDays: 365,
+			// Com 0 dias o cookie dura a sessão: quem recusa algo responde de novo na próxima visita.
+			expiresAfterDays: (acceptType) => (acceptType === 'all' ? 365 : 0),
 		},
 		guiOptions: {
 			consentModal: {
@@ -34,8 +37,11 @@ const getConfig = () => {
 							name: /^_ga/, // regex: match all cookies starting with '_ga'
 						},
 					],
+					// O gtag.js já carregado só para de rodar com uma página nova.
+					reloadPage: true,
 				},
 			},
+			instagram: {},
 		},
 		language: {
 			default: 'ptBR',
@@ -44,68 +50,50 @@ const getConfig = () => {
 					consentModal: {
 						title: 'Nós utilizamos cookies',
 						description:
-							'Queremos garantir a melhor navegação e personalizar sua experiência no nosso site. Por isso, coletamos informações pessoais de preferências e interesses por meio de cookies e outras tecnologias semelhantes.',
-						acceptAllBtn: 'Aceitar',
+							'Os cookies necessários mantêm o site funcionando. Com a sua autorização, também medimos a audiência com o Google Analytics e exibimos publicações do Instagram. O que você recusar fica desligado até o fim desta sessão.',
+						acceptAllBtn: 'Aceitar tudo',
+						acceptNecessaryBtn: 'Recusar',
+						showPreferencesBtn: 'Escolher',
 						footer: `
                         <a href="/documentos/termo-de-uso">Termos de Uso</a>
                         <a href="/documentos/politica-privacidade">Política de Privacidade</a>
                     `,
 					},
 					preferencesModal: {
-						title: 'Manage cookie preferences',
-						acceptAllBtn: 'Accept all',
-						acceptNecessaryBtn: 'Reject all',
-						savePreferencesBtn: 'Accept current selection',
-						closeIconLabel: 'Close modal',
-						serviceCounterLabel: 'Service|Services',
+						title: 'Preferências de cookies',
+						acceptAllBtn: 'Aceitar tudo',
+						acceptNecessaryBtn: 'Recusar tudo',
+						savePreferencesBtn: 'Salvar escolhas',
+						closeIconLabel: 'Fechar',
 						sections: [
 							{
-								title: 'Your Privacy Choices',
-								description: `In this panel you can express some preferences related to the processing of your personal information. You may review and change expressed choices at any time by resurfacing this panel via the provided link. To deny your consent to the specific processing activities described below, switch the toggles to off or use the “Reject all” button and confirm you want to save your choices.`,
+								title: 'Sua escolha',
+								description:
+									'O que ficar desligado não é carregado, e a recusa vale até o fim desta sessão. Você pode mudar de ideia quando quiser em "Preferências de cookies", no rodapé do site.',
 							},
 							{
-								title: 'Strictly Necessary',
+								title: 'Necessários',
 								description:
-									'These cookies are essential for the proper functioning of the website and cannot be disabled.',
+									'Guardam a sua resposta a este aviso e não podem ser desligados.',
 								//this field will generate a toggle linked to the 'necessary' category
 								linkedCategory: 'necessary',
 							},
 							{
-								title: 'Performance and Analytics',
+								title: 'Medição de audiência',
 								description:
-									'These cookies collect information about how you use our website. All of the data is anonymized and cannot be used to identify you.',
+									'O Google Analytics nos mostra quantas pessoas visitam o site e quais páginas acessam.',
 								linkedCategory: 'analytics',
-								cookieTable: {
-									caption: 'Cookie table',
-									headers: {
-										name: 'Cookie',
-										domain: 'Domain',
-										desc: 'Description',
-									},
-									body: [
-										{
-											name: '_ga',
-											domain: location.hostname,
-											desc: 'Description 1',
-										},
-										{
-											name: '_gid',
-											domain: location.hostname,
-											desc: 'Description 2',
-										},
-									],
-								},
 							},
 							{
-								title: 'Targeting and Advertising',
+								title: 'Publicações do Instagram',
 								description:
-									'These cookies are used to make advertising messages more relevant to you and your interests. The intention is to display ads that are relevant and engaging for the individual user and thereby more valuable for publishers and third party advertisers.',
-								linkedCategory: 'ads',
+									'A página inicial exibe publicações carregadas dos servidores da Meta, que pode definir cookies próprios.',
+								linkedCategory: 'instagram',
 							},
 							{
-								title: 'More information',
+								title: 'Mais informações',
 								description:
-									'For any queries in relation to my policy on cookies and your choices, please <a href="#contact-page">contact us</a>',
+									'Veja a <a href="/documentos/politica-privacidade">Política de Privacidade</a>.',
 							},
 						],
 					},
