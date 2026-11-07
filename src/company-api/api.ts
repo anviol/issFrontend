@@ -15,7 +15,9 @@ export async function api<T = ResponseData>(options: {
 	fetchOptions?: RequestInit;
 }): Promise<T & ResponseError> {
 	const { url, fetchOptions, strapiQueryParams = [] } = options;
-	const baseUrl = new URL(`${process.env.NEXT_PUBLIC_API_URL}/api${url}`);
+	// No servidor de produção, API_INTERNAL_URL evita sair pela internet até o próprio VPS.
+	const host = process.env.API_INTERNAL_URL || process.env.NEXT_PUBLIC_API_URL;
+	const baseUrl = new URL(`${host}/api${url}`);
 
 	const params = new URLSearchParams(strapiQueryParams.join('&'));
 	baseUrl.search = params.toString();
