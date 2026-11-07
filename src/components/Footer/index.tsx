@@ -6,6 +6,7 @@ import { PhoneIcon, MapPin, Plus } from 'lucide-react';
 import { extraLinks } from '../Header/menu-links';
 import * as SocialIcons from '../SocialIcons';
 import { FooterSections } from './FooterSection';
+import { SociallSignature } from './SociallSignature';
 import { Separator } from '../ui/separator';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { PreferencesButton } from '../CookieConsent/PreferencesButton';
@@ -130,6 +131,8 @@ const Footer = async () => {
 						{contacts.endereco}
 					</a>
 				</address>
+
+				<SociallSignature />
 			</div>
 			<Popover>
 				<PopoverTrigger className="fixed bottom-10 right-[2vw] z-10 aspect-square rounded-full border-2 border-issYellow bg-white p-2 shadow-xl">
