@@ -1,0 +1,11 @@
+.git
+.env*
+!.env.example
+!.env.development
+node_modules
+.next
+out
+build
+coverage
+Dockerfile
+.dockerignore
