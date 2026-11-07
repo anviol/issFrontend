@@ -58,8 +58,8 @@ export async function POST(
 		timeZone: 'America/Sao_Paulo',
 	});
 
+	// Sem destinatário: o Strapi envia para os e-mails publicados em "Email de envio".
 	const body = new FormData();
-	body.append('to', process.env.EMAIL_TO || '');
 	body.append(
 		'subject',
 		`${product ? 'Solicitação de Orçamento via Site' : 'Solicitação de Contato via Site'} (${data})`,
