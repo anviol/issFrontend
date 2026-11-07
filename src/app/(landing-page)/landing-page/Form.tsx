@@ -130,6 +130,10 @@ export const ClientForm = ({ fields }: Props) => {
 	);
 };
 
+// Campo opcional apagado volta como texto vazio, e não deve passar pela validação do campo.
+const vazioParaUndefined = (value: unknown) =>
+	typeof value === 'string' && !value.trim() ? undefined : value;
+
 function buildSchema(fields: TFormOptions['data']) {
 	const schemaShape: Record<string, z.ZodTypeAny> = {};
 	const phoneNumberRegex = /^\(?\d{2}\)?\s?(9?\d{4})-?\d{4}$/;
@@ -152,21 +156,29 @@ function buildSchema(fields: TFormOptions['data']) {
 					.regex(phoneNumberRegex, `formato de telefone inválido`);
 				break;
 			default:
-				schema = z.string({ message: 'campo obrigatório' });
+				schema = z
+					.string({ message: 'campo obrigatório' })
+					.trim()
+					.min(1, { message: 'campo obrigatório' });
 		}
 
-		schemaShape[campo] = obrigatorio ? schema : schema.optional();
+		schemaShape[campo] = obrigatorio
+			? schema
+			: z.preprocess(vazioParaUndefined, schema.optional());
 	});
 
-	schemaShape['message'] = z
-		.string()
-		.min(10, {
-			message: 'Deve conter pelo menos 10 caracteres.',
-		})
-		.max(200, {
-			message: 'Deve conter no máximo 200 caracteres.',
-		})
-		.optional();
+	schemaShape['message'] = z.preprocess(
+		vazioParaUndefined,
+		z
+			.string()
+			.min(10, {
+				message: 'Deve conter pelo menos 10 caracteres.',
+			})
+			.max(200, {
+				message: 'Deve conter no máximo 200 caracteres.',
+			})
+			.optional(),
+	);
 
 	return z.object(schemaShape);
 }

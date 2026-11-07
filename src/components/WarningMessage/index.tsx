@@ -16,7 +16,21 @@ export type WarningMessageProps = {
 export async function WarningMessage() {
 	const data = await getData();
 
+	if (data.data && !estaVigente(data.data.attributes)) return null;
+
 	return <WarningToast {...data} />;
+}
+
+function estaVigente({
+	inicio,
+	fim,
+}: WarningMessageProps['data']['attributes']) {
+	const agora = Date.now();
+
+	return (
+		(!inicio || new Date(inicio).getTime() <= agora) &&
+		(!fim || agora <= new Date(fim).getTime())
+	);
 }
 
 async function getData() {

@@ -33,7 +33,11 @@ type Props = {
 	product: string | null;
 };
 
-export const ClientForm = ({ fields, product }: Props) => {
+export const ClientForm = ({ fields: allFields, product }: Props) => {
+	// O e-mail é um campo fixo. Um campo igual cadastrado no CMS pediria o dado duas vezes.
+	const fields = allFields.filter(
+		({ attributes }) => !/^e-?mail$/i.test(attributes.campo.trim()),
+	);
 	const formSchema = buildSchema(fields);
 
 	const form = useForm<z.infer<typeof formSchema>>({
@@ -181,6 +185,10 @@ export const ClientForm = ({ fields, product }: Props) => {
 	);
 };
 
+// Campo opcional apagado volta como texto vazio, e não deve passar pela validação do campo.
+const vazioParaUndefined = (value: unknown) =>
+	typeof value === 'string' && !value.trim() ? undefined : value;
+
 function buildSchema(fields: TFormOptions['data']) {
 	const schemaShape: Record<string, z.ZodTypeAny> = {
 		email: z.string({ message: 'campo obrigatório' }).email(`e-mail inválido.`),
@@ -209,10 +217,15 @@ function buildSchema(fields: TFormOptions['data']) {
 					.regex(phoneNumberRegex, `formato de telefone inválido`);
 				break;
 			default:
-				schema = z.string({ message: 'campo obrigatório' });
+				schema = z
+					.string({ message: 'campo obrigatório' })
+					.trim()
+					.min(1, { message: 'campo obrigatório' });
 		}
 
-		schemaShape[campo] = obrigatorio ? schema : schema.optional();
+		schemaShape[campo] = obrigatorio
+			? schema
+			: z.preprocess(vazioParaUndefined, schema.optional());
 	});
 
 	return z.object(schemaShape);

@@ -3,32 +3,66 @@ import { SendEmailResponse } from '@/@types/form';
 import { api } from '@/company-api/api';
 import * as contactTemplate from '@/lib/templates/contact';
 
+const NAO_INFORMADO = 'Não informado';
+
+// O formulário envia o texto 'undefined' nos campos opcionais que não foram tocados.
+function limpar(value: FormDataEntryValue | null) {
+	const texto = typeof value === 'string' ? value.trim() : '';
+	return texto === 'undefined' ? '' : texto;
+}
+
 export async function POST(
 	request: Request,
-): Promise<NextResponse<SendEmailResponse>> {
-	const formData = await request.formData();
+): Promise<NextResponse<SendEmailResponse | { error: string }>> {
+	const formData = await request.formData().catch(() => null);
+
+	if (!formData) {
+		return NextResponse.json(
+			{ error: 'Requisição inválida.' },
+			{ status: 400 },
+		);
+	}
+
 	const templateData: Record<string, unknown> = {};
 
 	formData.forEach((value, key) => {
 		if (key !== 'message' && key !== 'Produto') {
-			templateData[key] = value === 'undefined' ? 'Não informado' : value;
+			templateData[key] = limpar(value) || NAO_INFORMADO;
 		}
 	});
 
-	const product = formData.get('Produto');
+	const mensagem = limpar(formData.get('message'));
+	const temDados = Object.values(templateData).some(
+		(value) => value !== NAO_INFORMADO,
+	);
+
+	if (!mensagem && !temDados) {
+		return NextResponse.json(
+			{ error: 'Formulário sem dados.' },
+			{ status: 400 },
+		);
+	}
+
+	const product = limpar(formData.get('Produto'));
 	if (product) {
 		templateData['Produto'] = product;
 	}
 
-	const message = `<p><strong>Mensagem: </strong>${formData.get('message')}</p>`;
+	const message = mensagem
+		? `<p><strong>Mensagem: </strong>${contactTemplate.escapeHtml(mensagem)}</p>`
+		: '';
 
 	const template = contactTemplate.createTemplate(templateData);
+
+	const data = new Date().toLocaleString('pt-BR', {
+		timeZone: 'America/Sao_Paulo',
+	});
 
 	const body = new FormData();
 	body.append('to', process.env.EMAIL_TO || '');
 	body.append(
 		'subject',
-		`${product ? 'Solicitação de Orçamento via Site' : 'Solicitação de Contato via Site'} (${new Date().toLocaleString()})`,
+		`${product ? 'Solicitação de Orçamento via Site' : 'Solicitação de Contato via Site'} (${data})`,
 	);
 
 	const greeting = `<p>Mensagem enviada pelo formulário do site.</p>`;

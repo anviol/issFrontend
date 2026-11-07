@@ -1,3 +1,12 @@
+export function escapeHtml(text: string) {
+	return text
+		.replace(/&/g, '&amp;')
+		.replace(/</g, '&lt;')
+		.replace(/>/g, '&gt;')
+		.replace(/"/g, '&quot;')
+		.replace(/'/g, '&#39;');
+}
+
 export function createTemplate(data: Record<string, unknown>) {
 	const styles = `
         <style>
@@ -16,8 +25,8 @@ export function createTemplate(data: Record<string, unknown>) {
 	let html = `<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Contact Form Submission</title> ${styles} </head> <body> <table class="table"> `;
 
 	Object.keys(data).map((key) => {
-		const value = data[key];
-		html += `<tr><td class="cell"><strong>${key}:</strong></td><td class="cell">${value}</td></tr>`;
+		const value = escapeHtml(String(data[key]));
+		html += `<tr><td class="cell"><strong>${escapeHtml(key)}:</strong></td><td class="cell">${value}</td></tr>`;
 	});
 
 	html += `</table></body></html>`;
