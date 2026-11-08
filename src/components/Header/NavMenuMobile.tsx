@@ -28,25 +28,23 @@ export function NavigationMenuMobile({
 		box: 'border-box',
 	});
 
+	const travado = React.useRef(false);
+
 	React.useEffect(() => {
-		const handleStateChange: MutationCallback = (mutationsList) => {
-			for (const mutation of mutationsList) {
-				if (
-					mutation.type === 'attributes' &&
-					mutation.attributeName === 'data-state'
-				) {
-					const isOpen =
-						triggerRef.current?.getAttribute('data-state') === 'open';
-					if (isOpen) lock();
-					else unlock();
-				}
-			}
+		const handleStateChange: MutationCallback = () => {
+			const isOpen = triggerRef.current?.getAttribute('data-state') === 'open';
+			// O Radix pode gravar o mesmo data-state mais de uma vez. Travar duas vezes faz o
+			// useScrollLock guardar a página já travada como estado original, e ela não destrava.
+			if (isOpen === travado.current) return;
+			travado.current = isOpen;
+			if (isOpen) lock();
+			else unlock();
 		};
 
 		const observer = new MutationObserver(handleStateChange);
 
 		if (triggerRef.current) {
-			observer.observe(triggerRef.current, { attributes: true });
+			observer.observe(triggerRef.current, { attributeFilter: ['data-state'] });
 		}
 
 		return () => {

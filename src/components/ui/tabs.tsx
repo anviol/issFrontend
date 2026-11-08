@@ -26,11 +26,21 @@ TabsList.displayName = TabsPrimitive.List.displayName;
 const TabsTrigger = React.forwardRef<
 	React.ComponentRef<typeof TabsPrimitive.Trigger>,
 	React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>
->(({ className, ...props }, ref) => (
+>(({ className, onPointerDown, onBlur, ...props }, ref) => (
 	<TabsPrimitive.Trigger
 		ref={ref}
+		// O Radix foca a aba no clique, e o Chrome trata esse foco como de teclado, com o anel.
+		// A marca data-clique esconde o anel até a aba perder o foco; pelo teclado ele aparece.
+		onPointerDown={(event) => {
+			event.currentTarget.dataset.clique = '';
+			onPointerDown?.(event);
+		}}
+		onBlur={(event) => {
+			delete event.currentTarget.dataset.clique;
+			onBlur?.(event);
+		}}
 		className={cn(
-			'flex-1 items-center justify-center whitespace-nowrap rounded p-3 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-issYellow data-[state=active]:text-foreground',
+			'flex-1 items-center justify-center whitespace-nowrap rounded p-3 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[clique]:ring-0 data-[clique]:ring-offset-0 data-[state=active]:bg-issYellow data-[state=active]:text-foreground',
 			className,
 		)}
 		{...props}
