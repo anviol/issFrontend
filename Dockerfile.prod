@@ -4,6 +4,9 @@ FROM node:26-bookworm-slim
 
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
+# O calendário de eventos é desenhado no servidor e no navegador. Com o servidor em UTC, das
+# 21h à meia-noite o "hoje" dele já é o dia seguinte, e o do visitante não.
+ENV TZ=America/Sao_Paulo
 
 RUN mkdir /app && chown node:node /app
 WORKDIR /app

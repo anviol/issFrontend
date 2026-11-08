@@ -5,6 +5,8 @@ FROM node:26-bookworm-slim
 WORKDIR /app
 
 ENV NEXT_TELEMETRY_DISABLED=1
+# Mesmo fuso do visitante, como na imagem de produção.
+ENV TZ=America/Sao_Paulo
 
 COPY package.json package-lock.json ./
 RUN npm ci

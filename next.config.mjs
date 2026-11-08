@@ -4,6 +4,10 @@ const [protocol, rest] = process.env.NEXT_PUBLIC_API_URL.split('://');
 const [hostname, port] = rest.split(':');
 
 const nextConfig = {
+	// O next dev só aceita localhost. Para abri-lo por outro endereço, como o IP do computador
+	// num celular da rede ou o dev.iss.test do e2e, liste em NEXT_DEV_ORIGINS, separados por
+	// vírgula. Não afeta o site em produção.
+	allowedDevOrigins: process.env.NEXT_DEV_ORIGINS?.split(',').filter(Boolean),
 	images: {
 		remotePatterns: [
 			{
@@ -16,14 +20,6 @@ const nextConfig = {
 		// deles no desenvolvimento (localhost) e no e2e (iss.test). O risco que a trava evita
 		// não existe aqui: remotePatterns só deixa buscar imagem do próprio Strapi.
 		dangerouslyAllowLocalIP: true,
-	},
-	turbopack: {
-		resolveAlias: {
-			// O react-grid-gallery manda o navegador para um build UMD que embute o jsx-runtime
-			// do React 17. Ele lê uma variável interna que o React 19 removeu, e a galeria quebra.
-			// O build ESM do mesmo pacote importa o React do projeto.
-			'react-grid-gallery': './node_modules/react-grid-gallery/dist/react-grid-gallery.esm.js',
-		},
 	},
 };
 

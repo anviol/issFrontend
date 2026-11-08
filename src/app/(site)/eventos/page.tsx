@@ -1,7 +1,7 @@
-import { Image } from 'react-grid-gallery';
 import { api } from '@/company-api/api';
 import { Section } from '../(home)/_components/Section';
 import { EventGallery } from './EventGallery';
+import { Photo } from './PhotoGrid';
 import { notFound } from 'next/navigation';
 import { TImage } from '@/@types/products';
 
@@ -43,7 +43,7 @@ async function getData() {
 	}
 
 	const images: {
-		small: Image[];
+		small: Photo[];
 		medium: {
 			height: number;
 			width: number;
@@ -64,13 +64,7 @@ async function getData() {
 				height: small.height,
 				width: small.width,
 				src: `${process.env.NEXT_PUBLIC_API_URL}${small.url}`,
-				customOverlay: (
-					<div className="flex h-full flex-col justify-end">
-						<div className="bg-white/80">
-							<div>{evento.nome_evento}</div>
-						</div>
-					</div>
-				),
+				album: evento.nome_evento,
 			});
 			images.medium.push({
 				height: medium.height,

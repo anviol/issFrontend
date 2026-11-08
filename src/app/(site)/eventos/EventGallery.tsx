@@ -2,8 +2,9 @@
 import { RefObject, useRef, useState } from 'react';
 import { CircleX } from 'lucide-react';
 import Image from 'next/image';
-import { Gallery, Image as IImage } from 'react-grid-gallery';
 import { useScrollLock, useOnClickOutside } from 'usehooks-ts';
+
+import { Photo, PhotoGrid } from './PhotoGrid';
 
 import {
 	Carousel,
@@ -16,7 +17,7 @@ import {
 
 type Props = {
 	images: {
-		small: IImage[];
+		small: Photo[];
 		medium: {
 			height: number;
 			width: number;
@@ -41,14 +42,13 @@ export const EventGallery = ({ images }: Props) => {
 
 	return (
 		<div className="max-w-full overflow-x-hidden">
-			<Gallery
-				images={images.small}
-				onClick={(idx) => {
+			<PhotoGrid
+				photos={images.small}
+				onOpen={(idx) => {
 					setImgToOpen(idx);
 					setOpenModal(true);
 					lock();
 				}}
-				enableImageSelection={false}
 			/>
 
 			{openModal && (

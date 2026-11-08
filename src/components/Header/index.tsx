@@ -70,15 +70,17 @@ async function getData() {
 		},
 	});
 
+	// O id vira a key da lista do menu. Os dois links são tipos únicos no CMS, e os dois têm
+	// id 1, então a key não pode vir dele.
 	const chamadosNavData: NavLinks = {
-		id: String(chamadosLink.id + 10),
+		id: 'chamados',
 		href: chamadosLink.attributes.link,
 		title: 'Chamados',
 		external: true,
 	};
 
 	const boletosNavData: NavLinks = {
-		id: String(boletosLink.id + 10),
+		id: 'boletos',
 		href: boletosLink.attributes.link,
 		title: 'Boletos',
 		external: true,
