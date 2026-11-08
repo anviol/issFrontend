@@ -135,7 +135,10 @@ const Footer = async () => {
 				<SociallSignature />
 			</div>
 			<Popover>
-				<PopoverTrigger className="fixed bottom-10 right-[2vw] z-10 aspect-square rounded-full border-2 border-issYellow bg-white p-2 shadow-xl">
+				<PopoverTrigger
+					aria-label="Redes sociais"
+					className="fixed bottom-10 right-[2vw] z-10 aspect-square rounded-full border-2 border-issYellow bg-white p-2 shadow-xl"
+				>
 					<Plus className="w-11 min-w-11" />
 				</PopoverTrigger>
 				<PopoverContent className="w-min" sideOffset={20}>

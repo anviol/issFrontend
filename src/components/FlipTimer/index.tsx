@@ -61,8 +61,10 @@ const CardContainer = ({ value, label }: { value: string; label: string }) => {
 		<div title={`${value} ${label}`} className="">
 			<div className="">
 				<div className="relative flex rounded">
-					<Card value={value.at(0) as string} />
-					<Card value={value.at(1) as string} />
+					{/* Um cartão por dígito: um evento a 150 dias mostra 150, e não 15. */}
+					{value.split('').map((digit, i) => (
+						<Card key={value.length - i} value={digit} />
+					))}
 				</div>
 			</div>
 			<span className="mt-px block text-center text-sm font-medium tracking-tight text-gray-600">
@@ -97,7 +99,7 @@ const Card = ({ value }: { value: string }) => {
 	}, [value, set]);
 
 	return (
-		<div className="relative h-14 w-8 [&:last-child>*]:justify-start [&:last-child>*]:rounded-l-none [&:last-child>*]:rounded-r">
+		<div className="relative h-14 w-8 [&:last-child>*]:justify-start [&:last-child>*]:rounded-l-none [&:last-child>*]:rounded-r [&:not(:first-child):not(:last-child)>*]:justify-center [&:not(:first-child):not(:last-child)>*]:rounded-none">
 			<a.div
 				className={cardClassName}
 				style={{

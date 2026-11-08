@@ -312,6 +312,7 @@ const Dots: React.FC<DotsProps> = (props) => {
 				<li key={String(index)}>
 					<button
 						type="button"
+						aria-label={`Ir para o slide ${index + 1}`}
 						data-current={selectedIndex === index ? 'true' : 'false'}
 						className={cn(
 							'cursor-pointer rounded-md border border-issYellow p-1 px-3 transition-colors duration-500 data-[current=true]:bg-issYellow',

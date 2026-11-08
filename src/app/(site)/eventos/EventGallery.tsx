@@ -51,12 +51,18 @@ export const EventGallery = ({ images }: Props) => {
 			/>
 
 			{openModal && (
-				<div className="fixed bottom-0 left-0 right-0 top-0 z-50 flex items-center justify-center bg-black/90">
+				<div
+					role="dialog"
+					aria-modal="true"
+					aria-label="Foto ampliada"
+					className="fixed bottom-0 left-0 right-0 top-0 z-50 flex items-center justify-center bg-black/90"
+				>
 					<button
 						onClick={() => {
 							unlock();
 							setOpenModal(false);
 						}}
+						aria-label="Fechar foto"
 						className="absolute right-0 top-10 p-2 sm:right-10"
 					>
 						<CircleX className="h-10 w-10 min-w-10 text-white hover:brightness-75" />

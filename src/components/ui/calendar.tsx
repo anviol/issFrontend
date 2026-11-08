@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@radix-ui/react-icons';
+import { ptBR } from 'date-fns/locale';
 import { DayPicker } from 'react-day-picker';
 
 import { cn } from '@/lib/utils';
@@ -17,6 +18,11 @@ function Calendar({
 }: CalendarProps) {
 	return (
 		<DayPicker
+			locale={ptBR}
+			labels={{
+				labelNext: () => 'Próximo mês',
+				labelPrevious: () => 'Mês anterior',
+			}}
 			showOutsideDays={showOutsideDays}
 			className={cn('p-4', className)}
 			modifiersClassNames={{
@@ -26,7 +32,7 @@ function Calendar({
 				months: 'flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0',
 				month: 'space-y-6',
 				caption: 'flex justify-center pt-1 relative items-center',
-				caption_label: 'text-sm font-medium',
+				caption_label: 'text-sm font-medium capitalize',
 				nav: 'space-x-1 flex items-center',
 				nav_button: cn(
 					buttonVariants({ variant: 'outline' }),

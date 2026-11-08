@@ -59,6 +59,7 @@ export function NavigationMenuMobile({
 				<NavMenu.NavigationMenuItem>
 					<NavMenu.NavigationMenuTrigger
 						ref={triggerRef}
+						aria-label="Menu"
 						className="group min-h-[72px] p-6"
 					>
 						<BurgerIconAnim />

@@ -33,6 +33,7 @@ export function WarningToast({ data, error }: Props) {
 			<button
 				className="ml-auto rounded-full p-1 transition-colors hover:bg-black/20"
 				onClick={handleDismiss}
+				aria-label="Fechar aviso"
 			>
 				<X className="h-4 w-4" />
 			</button>
