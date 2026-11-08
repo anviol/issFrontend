@@ -1,7 +1,6 @@
 'use client';
 
 import * as React from 'react';
-export { default as FadePlugin } from 'embla-carousel-fade';
 export { default as AutoplayPlugin } from 'embla-carousel-autoplay';
 
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
