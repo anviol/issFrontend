@@ -1,6 +1,6 @@
 # Imagem de produção (next start). A de desenvolvimento é o Dockerfile.
 # NEXT_PUBLIC_* ficam fixas no build, e next.config.mjs volta a ler a URL ao iniciar.
-FROM node:20-bookworm-slim
+FROM node:26-bookworm-slim
 
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1

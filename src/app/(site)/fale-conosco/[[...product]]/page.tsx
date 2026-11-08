@@ -6,15 +6,16 @@ import { TFormOptions } from '@/@types/form';
 export default async function Contact({
 	params,
 }: {
-	params: { product?: string[] };
+	params: Promise<{ product?: string[] }>;
 }) {
+	const { product } = await params;
 	const data = await getDate();
 
 	return (
 		<div>
 			<ClientForm
 				fields={data}
-				product={params.product?.[0] ? decodeURIComponent(params.product[0]) : null}
+				product={product?.[0] ? decodeURIComponent(product[0]) : null}
 			/>
 		</div>
 	);

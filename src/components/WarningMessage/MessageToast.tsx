@@ -16,7 +16,10 @@ export function WarningToast({ data, error }: Props) {
 		false,
 	);
 
+	// O servidor não conhece o sessionStorage. O aviso nasce escondido e só aparece depois de
+	// montar, para não piscar para quem já o fechou.
 	useEffect(() => {
+		// eslint-disable-next-line react-hooks/set-state-in-effect
 		setShow(!dismissed);
 	}, [dismissed]);
 

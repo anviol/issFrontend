@@ -11,13 +11,13 @@ type TContentData = {
 };
 
 type Props = {
-	params: { content: string };
+	params: Promise<{ content: string }>;
 };
 
 const documentos = ['termo-de-uso', 'politica-privacidade'];
 
 export default async function DocumentsView({ params }: Props) {
-	const { content: slug } = params;
+	const { content: slug } = await params;
 
 	if (!documentos.includes(slug)) return notFound();
 

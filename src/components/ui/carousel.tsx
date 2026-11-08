@@ -121,6 +121,8 @@ const Carousel = React.forwardRef<
 				return;
 			}
 
+			// Lê o estado inicial do Embla, que nasce fora do React.
+			// eslint-disable-next-line react-hooks/set-state-in-effect
 			onSelect(api);
 			api.on('reInit', onSelect);
 			api.on('select', onSelect);
@@ -300,6 +302,8 @@ const Dots: React.FC<DotsProps> = (props) => {
 	React.useEffect(() => {
 		if (!emblaApi) return;
 
+		// Lê o estado inicial do Embla, que nasce fora do React.
+		// eslint-disable-next-line react-hooks/set-state-in-effect
 		onInit(emblaApi);
 		onSelect(emblaApi);
 		emblaApi.on('reInit', onInit).on('reInit', onSelect).on('select', onSelect);

@@ -1,6 +1,6 @@
 'use client';
 import * as React from 'react';
-import Link, { LinkProps } from 'next/link';
+import Link from 'next/link';
 import * as NavMenu from '@radix-ui/react-navigation-menu';
 import { useResizeObserver, useScrollLock } from 'usehooks-ts';
 
@@ -23,7 +23,8 @@ export function NavigationMenuMobile({
 	});
 	const triggerRef = React.useRef<HTMLButtonElement>(null);
 	const { height = 0 } = useResizeObserver({
-		ref: triggerRef,
+		// O usehooks-ts ainda tipa a ref como no React 18, sem o null do React 19.
+		ref: triggerRef as React.RefObject<HTMLButtonElement>,
 		box: 'border-box',
 	});
 
@@ -130,19 +131,22 @@ const NavMenuItem = ({
 
 const NavMenuLink = ({
 	className,
-	...props
-}: LinkProps & {
+	href,
+	target,
+	children,
+}: {
+	href: string;
 	target?: React.HTMLAttributeAnchorTarget;
 	children: React.ReactNode;
 	className?: string;
 }) => {
 	return (
 		<NavMenuItem className={className}>
-			<Link {...props} legacyBehavior passHref>
-				<NavMenu.NavigationMenuLink target={props?.target}>
-					{props.children}
-				</NavMenu.NavigationMenuLink>
-			</Link>
+			<NavMenu.NavigationMenuLink asChild>
+				<Link href={href} target={target}>
+					{children}
+				</Link>
+			</NavMenu.NavigationMenuLink>
 		</NavMenuItem>
 	);
 };

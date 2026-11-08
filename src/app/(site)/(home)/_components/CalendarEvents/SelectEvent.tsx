@@ -1,9 +1,9 @@
 'use client';
 import React, { useCallback, useState } from 'react';
-import { isEqual, startOfDay, closestTo, isAfter } from 'date-fns';
+import { isEqual, isSameDay, closestTo, isAfter } from 'date-fns';
 
 import { Clock, MapPin } from 'lucide-react';
-import { SelectRangeEventHandler } from 'react-day-picker';
+import { DateRange } from 'react-day-picker';
 
 import { Calendar } from '@/components/ui/calendar';
 import { TEvent } from '.';
@@ -38,11 +38,11 @@ function getNearestEvent(data: TEvent[]) {
 const SelectEvent = ({ data }: { data: TEvent[] }) => {
 	const [selectedEvent, setSelectedEvent] = useState(getNearestEvent(data));
 
-	const handleSelectEvent: SelectRangeEventHandler = useCallback(
-		(_, selectedDay) => {
+	const handleSelectEvent = useCallback(
+		(_: DateRange | undefined, selectedDay: Date) => {
 			if (!selectedDay) return;
 			const event = data.find(({ attributes }) =>
-				isEqual(selectedDay, startOfDay(attributes.inicio)),
+				isSameDay(selectedDay, attributes.inicio),
 			);
 
 			if (event) {

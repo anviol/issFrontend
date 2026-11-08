@@ -12,7 +12,7 @@ export const Supplies = ({ data }: Props) => {
 					text={data}
 					className={'text-justify leading-9'}
 					components={{
-						h1: ({ children, className, ...props }) => {
+						h1: ({ node: _node, children, className: _className, ...props }) => {
 							return (
 								<h1
 									className={

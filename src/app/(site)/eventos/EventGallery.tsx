@@ -1,5 +1,5 @@
 'use client';
-import { useRef, useState } from 'react';
+import { RefObject, useRef, useState } from 'react';
 import { CircleX } from 'lucide-react';
 import Image from 'next/image';
 import { Gallery, Image as IImage } from 'react-grid-gallery';
@@ -30,13 +30,14 @@ export const EventGallery = ({ images }: Props) => {
 	const { lock, unlock } = useScrollLock({
 		autoLock: false,
 	});
-	const carouselRef = useRef(null);
-	useOnClickOutside(carouselRef, () => {
+	const [openModal, setOpenModal] = useState(false);
+	const [imgToOpen, setImgToOpen] = useState(0);
+	const carouselRef = useRef<HTMLDivElement>(null);
+	// O usehooks-ts ainda tipa a ref como no React 18, sem o null do React 19.
+	useOnClickOutside(carouselRef as RefObject<HTMLDivElement>, () => {
 		unlock();
 		setOpenModal(false);
 	});
-	const [openModal, setOpenModal] = useState(false);
-	const [imgToOpen, setImgToOpen] = useState(0);
 
 	return (
 		<div className="max-w-full overflow-x-hidden">

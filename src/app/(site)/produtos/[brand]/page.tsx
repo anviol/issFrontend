@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/card';
 
 type Props = {
-	params: { brand: string };
+	params: Promise<{ brand: string }>;
 };
 
 type TProductShort = {
@@ -37,7 +37,8 @@ type TCategories = {
 	};
 };
 
-export default async function BrandCatalog({ params: { brand } }: Props) {
+export default async function BrandCatalog({ params }: Props) {
+	const { brand } = await params;
 	const data = await getCategories(brand);
 
 	return (

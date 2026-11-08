@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Link, { LinkProps } from 'next/link';
+import Link from 'next/link';
 import * as NavMenu from '@radix-ui/react-navigation-menu';
 import { cn } from '@/lib/utils';
 import { extraLinks, NavLinks } from './menu-links';
@@ -40,8 +40,6 @@ export function NavigationMenu({ boletosNavData, chamadosNavData }: Props) {
 						<NavMenuLink
 							key={item.id}
 							href={item.href}
-							legacyBehavior
-							passHref
 							target={item.external ? '_blank' : undefined}
 						>
 							{item.title}
@@ -75,19 +73,22 @@ const NavMenuItem = ({
 	);
 };
 
-const NavMenuLink = (
-	props: LinkProps & {
-		target?: React.HTMLAttributeAnchorTarget;
-		children: React.ReactNode;
-	},
-) => {
+const NavMenuLink = ({
+	href,
+	target,
+	children,
+}: {
+	href: string;
+	target?: React.HTMLAttributeAnchorTarget;
+	children: React.ReactNode;
+}) => {
 	return (
 		<NavMenuItem>
-			<Link {...props}>
-				<NavMenu.NavigationMenuLink target={props?.target}>
-					{props.children}
-				</NavMenu.NavigationMenuLink>
-			</Link>
+			<NavMenu.NavigationMenuLink asChild>
+				<Link href={href} target={target}>
+					{children}
+				</Link>
+			</NavMenu.NavigationMenuLink>
 		</NavMenuItem>
 	);
 };

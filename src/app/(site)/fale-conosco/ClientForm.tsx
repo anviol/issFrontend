@@ -40,11 +40,11 @@ export const ClientForm = ({ fields: allFields, product }: Props) => {
 	);
 	const formSchema = buildSchema(fields);
 
-	const form = useForm<z.infer<typeof formSchema>>({
+	const form = useForm<Valores>({
 		resolver: zodResolver(formSchema),
 	});
 
-	function onSubmit(values: z.infer<typeof formSchema>) {
+	function onSubmit(values: Valores) {
 		toast.promise(sendMail(values as BuiltSchema), {
 			pending: 'Enviando sua requisição',
 			success: 'Requisição enviada com sucesso!',
@@ -186,11 +186,15 @@ export const ClientForm = ({ fields: allFields, product }: Props) => {
 };
 
 // Campo opcional apagado volta como texto vazio, e não deve passar pela validação do campo.
-const vazioParaUndefined = (value: unknown) =>
-	typeof value === 'string' && !value.trim() ? undefined : value;
+const vazioParaUndefined = (value: string | undefined) =>
+	value !== undefined && !value.trim() ? undefined : value;
+
+// Todo campo recebe texto e devolve texto, ou nada quando é opcional e ficou vazio.
+type Campo = z.ZodType<string | undefined, string | undefined>;
+type Valores = Record<string, string | undefined>;
 
 function buildSchema(fields: TFormOptions['data']) {
-	const schemaShape: Record<string, z.ZodTypeAny> = {
+	const schemaShape: Record<string, Campo> = {
 		email: z.string({ message: 'campo obrigatório' }).email(`e-mail inválido.`),
 		message: z
 			.string({ message: 'campo obrigatório' })

@@ -1,6 +1,6 @@
 # Imagem de desenvolvimento local (next dev). Não serve para produção.
 # NEXT_PUBLIC_API_URL precisa estar definida ao iniciar, pois next.config.mjs a lê.
-FROM node:20-bookworm-slim
+FROM node:26-bookworm-slim
 
 WORKDIR /app
 

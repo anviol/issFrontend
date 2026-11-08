@@ -12,6 +12,9 @@ const Countdown = ({ target }: { target: Date }) => {
 	});
 
 	useEffect(() => {
+		// O servidor desenha zeros, porque a hora dele não é a do visitante. A conta só pode
+		// acontecer no navegador, depois de montar.
+		// eslint-disable-next-line react-hooks/set-state-in-effect
 		setDiff(getDifference(target, new Date()));
 
 		const event = setInterval(() => {

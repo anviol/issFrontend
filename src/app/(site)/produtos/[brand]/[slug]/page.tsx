@@ -12,7 +12,7 @@ import { Supplies } from './content/Supplies';
 import { Separator } from '@/components/ui/separator';
 
 type Props = {
-	params: { slug: string };
+	params: Promise<{ slug: string }>;
 };
 
 const tabs = [
@@ -23,7 +23,8 @@ const tabs = [
 
 const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 
-export default async function ProductDetail({ params: { slug } }: Props) {
+export default async function ProductDetail({ params }: Props) {
+	const { slug } = await params;
 	const { usages, ...product } = await getData(slug);
 	const {
 		principal: { data: principal },
