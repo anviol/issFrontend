@@ -39,7 +39,8 @@ const InstagramFeed = async () => {
 const getData = async () => {
 	const { data, error } = await api<WithPagination<InstagramMedia>>({
 		url: '/instagrams',
-		strapiQueryParams: ['?sort=id:desc'],
+		// Mais recentes primeiro. No Strapi 5 o id muda a cada publicação, e a data de criação não.
+		strapiQueryParams: ['sort=createdAt:desc'],
 		fetchOptions: {
 			cache: 'no-store',
 		},

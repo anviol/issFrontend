@@ -143,7 +143,8 @@ async function getCategories(brand: string) {
 	const { data, error } = await api<WithPagination<TCategories>>({
 		url: '/catalogo-produtos-por-marcas',
 		strapiQueryParams: [
-			'populate=produtos.principal,*',
+			// Só a foto principal de cada produto. O Strapi 5 recusa `*` junto de outro campo.
+			'populate[produtos][populate][0]=principal',
 			'pagination[limit]=1000',
 			`filters[fornecedor][nome][$eq]=${brand}`,
 		],
