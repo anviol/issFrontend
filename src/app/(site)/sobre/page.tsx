@@ -37,7 +37,13 @@ export default async function AboutUs() {
 const getData = async () => {
 	const { error, data } = await api<TTimeLine>({
 		url: '/historias',
-		strapiQueryParams: ['populate=*', 'pagination[limit]=1000'],
+		// Em ordem cronológica, não na ordem de cadastro. No mesmo ano, vale a de cadastro.
+		strapiQueryParams: [
+			'populate=*',
+			'pagination[limit]=1000',
+			'sort[0]=ano:asc',
+			'sort[1]=createdAt:asc',
+		],
 		fetchOptions: {
 			cache: 'no-store',
 		},
