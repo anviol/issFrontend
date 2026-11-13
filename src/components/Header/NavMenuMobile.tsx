@@ -7,16 +7,18 @@ import { useResizeObserver, useScrollLock } from 'usehooks-ts';
 import { cn } from '@/lib/utils';
 import { extraLinks, NavLinks } from './menu-links';
 import { BurgerIconAnim } from './BurgerIconAnim';
-import { Brand4P, BrandMimaki } from './MenuProductArea';
+import { Brand4P, BrandMimaki, DescricoesDasMarcas } from './MenuProductArea';
 
 type Props = {
 	boletosNavData: NavLinks;
 	chamadosNavData: NavLinks;
+	descricoesDasMarcas: DescricoesDasMarcas;
 };
 
 export function NavigationMenuMobile({
 	boletosNavData,
 	chamadosNavData,
+	descricoesDasMarcas,
 }: Props) {
 	const { lock, unlock } = useScrollLock({
 		autoLock: false,
@@ -82,10 +84,12 @@ export function NavigationMenuMobile({
 													<NavMenu.NavigationMenuContent className="left-0 -ml-8 mt-1 rounded-md border bg-gray-100">
 														<ul className="flex flex-col gap-3 divide-y-2 py-2 md:w-[400px] lg:w-[500px]">
 															<li className="row-span-3 flex-1">
-																<BrandMimaki />
+																<BrandMimaki
+																	description={descricoesDasMarcas.Mimaki}
+																/>
 															</li>
 															<li className="row-span-3 flex-1">
-																<Brand4P />
+																<Brand4P description={descricoesDasMarcas['4P']} />
 															</li>
 														</ul>
 													</NavMenu.NavigationMenuContent>

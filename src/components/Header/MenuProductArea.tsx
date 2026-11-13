@@ -1,36 +1,42 @@
 import * as NavMenu from '@radix-ui/react-navigation-menu';
 
+/** Descrição de cada marca no menu Produtos, pelo `nome` do fornecedor no CMS. */
+export type DescricoesDasMarcas = Record<string, string | undefined>;
+
 type ProductAreaProps = {
 	title: string;
 	href: string;
 	imageUrl?: string;
-	children?: React.ReactNode;
+	description?: string;
 };
 
-export const BrandMimaki = () => (
+type BrandProps = {
+	description?: string;
+};
+
+export const BrandMimaki = ({ description }: BrandProps) => (
 	<ProductArea
 		title="Mimaki"
 		href="/produtos/Mimaki"
 		imageUrl="/assets/logo_mimaki.svg"
-	>
-		As Impressoras a jato de tinta de grandes formatos, oferecem versatilidade e
-		variedade de aplicações para expandir o seu negócio.
-	</ProductArea>
+		description={description}
+	/>
 );
 
-export const Brand4P = () => (
-	<ProductArea title="4P" href="/produtos/4P" imageUrl="/assets/4P.svg">
-		Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nisi atque, ab
-		soluta non, minus ipsam nobis eius labore veritatis eum quidem laboriosam
-		rem repudiandae
-	</ProductArea>
+export const Brand4P = ({ description }: BrandProps) => (
+	<ProductArea
+		title="4P"
+		href="/produtos/4P"
+		imageUrl="/assets/4P.svg"
+		description={description}
+	/>
 );
 
 export const ProductArea = ({
 	title,
 	href,
 	imageUrl,
-	children,
+	description,
 }: ProductAreaProps) => {
 	return (
 		<NavMenu.NavigationMenuLink asChild>
@@ -45,7 +51,9 @@ export const ProductArea = ({
 				/>
 				<div>
 					<span className="font-semibold text-black">{title}</span>
-					<p className="text-justify text-sm text-black">{children}</p>
+					{description && (
+						<p className="text-justify text-sm text-black">{description}</p>
+					)}
 				</div>
 			</a>
 		</NavMenu.NavigationMenuLink>

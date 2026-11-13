@@ -3,14 +3,19 @@ import Link from 'next/link';
 import * as NavMenu from '@radix-ui/react-navigation-menu';
 import { cn } from '@/lib/utils';
 import { extraLinks, NavLinks } from './menu-links';
-import { Brand4P, BrandMimaki } from './MenuProductArea';
+import { Brand4P, BrandMimaki, DescricoesDasMarcas } from './MenuProductArea';
 
 type Props = {
 	boletosNavData: NavLinks;
 	chamadosNavData: NavLinks;
+	descricoesDasMarcas: DescricoesDasMarcas;
 };
 
-export function NavigationMenu({ boletosNavData, chamadosNavData }: Props) {
+export function NavigationMenu({
+	boletosNavData,
+	chamadosNavData,
+	descricoesDasMarcas,
+}: Props) {
 	return (
 		<NavMenu.NavigationMenu className="z-300 hidden text-white md:block lg:text-lg">
 			<NavMenu.NavigationMenuList className="flex justify-center gap-2 px-4 min-[1200px]:gap-9 min-[1200px]:px-8">
@@ -25,10 +30,10 @@ export function NavigationMenu({ boletosNavData, chamadosNavData }: Props) {
 								<NavMenu.NavigationMenuContent className="absolute -left-1 z-50 mt-7 overflow-hidden rounded-md bg-white [box-shadow:0_0_15px_4px_#00000040]">
 									<ul className="flex w-[600px] flex-col divide-y p-0">
 										<li className="flex-1">
-											<BrandMimaki />
+											<BrandMimaki description={descricoesDasMarcas.Mimaki} />
 										</li>
 										<li className="flex-1">
-											<Brand4P />
+											<Brand4P description={descricoesDasMarcas['4P']} />
 										</li>
 									</ul>
 								</NavMenu.NavigationMenuContent>
