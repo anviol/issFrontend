@@ -19,6 +19,9 @@ type Props = {
 
 export const TimeLine = ({ data }: Props) => {
 	const [centeredBox, setCenteredBox] = useState<number | null>(null);
+	const [hoveredBox, setHoveredBox] = useState<number | null>(null);
+	// O ano sob o mouse tem prioridade. Sem mouse em cima, vale o que a rolagem trouxe ao meio da tela.
+	const highlightedBox = hoveredBox ?? centeredBox;
 
 	useEffect(() => {
 		const handleScroll = () => {
@@ -52,6 +55,11 @@ export const TimeLine = ({ data }: Props) => {
 					<div
 						key={String(index)}
 						className={`flex flex-col ${lineColorClassName} group`}
+						onPointerEnter={(event) => {
+							// Só o mouse: no celular, o toque deixaria o ano preso e a rolagem pararia de destacar.
+							if (event.pointerType === 'mouse') setHoveredBox(index);
+						}}
+						onPointerLeave={() => setHoveredBox(null)}
 					>
 						<TimeSection
 							year={attributes.ano}
@@ -59,7 +67,7 @@ export const TimeLine = ({ data }: Props) => {
 							isFirst={isFirst}
 							isLast={isLast}
 							isStart={start}
-							isInCenter={centeredBox === index}
+							isInCenter={highlightedBox === index}
 						/>
 
 						<div
