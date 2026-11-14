@@ -33,15 +33,25 @@ export const ClientForm = ({ fields }: Props) => {
 
 	const form = useForm<Valores>({
 		resolver: zodResolver(formSchema),
+		// Começar com texto vazio, e não com undefined, é o que faz o reset apagar o que está na tela.
+		defaultValues: valoresVazios([
+			'message',
+			...fields.map(({ attributes }) => attributes.campo),
+		]),
 	});
 
-	function onSubmit(values: Valores) {
-		toast.promise(sendMail(values as BuiltSchema), {
-			pending: 'Enviando sua requisição',
-			success: 'Requisição enviada com sucesso!',
-			error:
-				'Não foi possível enviar sua requisição. Por favor, tente novamente.',
-		});
+	async function onSubmit(values: Valores) {
+		try {
+			await toast.promise(sendMail(values as BuiltSchema), {
+				pending: 'Enviando sua requisição',
+				success: 'Requisição enviada com sucesso!',
+				error:
+					'Não foi possível enviar sua requisição. Por favor, tente novamente.',
+			});
+			form.reset();
+		} catch {
+			// O toast já avisou do erro, e os campos continuam preenchidos para o cliente tentar de novo.
+		}
 	}
 
 	const sendMail = useCallback(async (props: BuiltSchema) => {
@@ -130,9 +140,13 @@ export const ClientForm = ({ fields }: Props) => {
 	);
 };
 
-// Campo opcional apagado volta como texto vazio, e não deve passar pela validação do campo.
+// Campo vazio conta como não preenchido: o opcional passa, e o obrigatório pede o preenchimento,
+// em vez de reclamar do formato. Vale para o campo apagado e para o formulário limpo após o envio.
 const vazioParaUndefined = (value: string | undefined) =>
 	value !== undefined && !value.trim() ? undefined : value;
+
+const valoresVazios = (nomes: string[]): Valores =>
+	Object.fromEntries(nomes.map((nome) => [nome, '']));
 
 // Todo campo recebe texto e devolve texto, ou nada quando é opcional e ficou vazio.
 type Campo = z.ZodType<string | undefined, string | undefined>;
@@ -166,9 +180,10 @@ function buildSchema(fields: TFormOptions['data']) {
 					.min(1, { message: 'campo obrigatório' });
 		}
 
-		schemaShape[campo] = obrigatorio
-			? schema
-			: z.preprocess(vazioParaUndefined, schema.optional());
+		schemaShape[campo] = z.preprocess(
+			vazioParaUndefined,
+			obrigatorio ? schema : schema.optional(),
+		);
 	});
 
 	schemaShape['message'] = z.preprocess(

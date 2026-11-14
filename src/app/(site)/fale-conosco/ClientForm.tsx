@@ -42,15 +42,26 @@ export const ClientForm = ({ fields: allFields, product }: Props) => {
 
 	const form = useForm<Valores>({
 		resolver: zodResolver(formSchema),
+		// Começar com texto vazio, e não com undefined, é o que faz o reset apagar o que está na tela.
+		defaultValues: valoresVazios([
+			'email',
+			'message',
+			...fields.map(({ attributes }) => attributes.campo),
+		]),
 	});
 
-	function onSubmit(values: Valores) {
-		toast.promise(sendMail(values as BuiltSchema), {
-			pending: 'Enviando sua requisição',
-			success: 'Requisição enviada com sucesso!',
-			error:
-				'Não foi possível enviar sua requisição. Por favor, tente novamente.',
-		});
+	async function onSubmit(values: Valores) {
+		try {
+			await toast.promise(sendMail(values as BuiltSchema), {
+				pending: 'Enviando sua requisição',
+				success: 'Requisição enviada com sucesso!',
+				error:
+					'Não foi possível enviar sua requisição. Por favor, tente novamente.',
+			});
+			form.reset();
+		} catch {
+			// O toast já avisou do erro, e os campos continuam preenchidos para o cliente tentar de novo.
+		}
 	}
 
 	const sendMail = useCallback(
@@ -185,9 +196,13 @@ export const ClientForm = ({ fields: allFields, product }: Props) => {
 	);
 };
 
-// Campo opcional apagado volta como texto vazio, e não deve passar pela validação do campo.
+// Campo vazio conta como não preenchido: o opcional passa, e o obrigatório pede o preenchimento,
+// em vez de reclamar do formato. Vale para o campo apagado e para o formulário limpo após o envio.
 const vazioParaUndefined = (value: string | undefined) =>
 	value !== undefined && !value.trim() ? undefined : value;
+
+const valoresVazios = (nomes: string[]): Valores =>
+	Object.fromEntries(nomes.map((nome) => [nome, '']));
 
 // Todo campo recebe texto e devolve texto, ou nada quando é opcional e ficou vazio.
 type Campo = z.ZodType<string | undefined, string | undefined>;
@@ -195,15 +210,21 @@ type Valores = Record<string, string | undefined>;
 
 function buildSchema(fields: TFormOptions['data']) {
 	const schemaShape: Record<string, Campo> = {
-		email: z.string({ message: 'campo obrigatório' }).email(`e-mail inválido.`),
-		message: z
-			.string({ message: 'campo obrigatório' })
-			.min(10, {
-				message: 'Deve conter pelo menos 10 caracteres.',
-			})
-			.max(250, {
-				message: 'Deve conter no máximo 250 caracteres.',
-			}),
+		email: z.preprocess(
+			vazioParaUndefined,
+			z.string({ message: 'campo obrigatório' }).email(`e-mail inválido.`),
+		),
+		message: z.preprocess(
+			vazioParaUndefined,
+			z
+				.string({ message: 'campo obrigatório' })
+				.min(10, {
+					message: 'Deve conter pelo menos 10 caracteres.',
+				})
+				.max(250, {
+					message: 'Deve conter no máximo 250 caracteres.',
+				}),
+		),
 	};
 
 	const phoneNumberRegex = /^\(?\d{2}\)?\s?(9?\d{4})-?\d{4}$/;
@@ -227,9 +248,10 @@ function buildSchema(fields: TFormOptions['data']) {
 					.min(1, { message: 'campo obrigatório' });
 		}
 
-		schemaShape[campo] = obrigatorio
-			? schema
-			: z.preprocess(vazioParaUndefined, schema.optional());
+		schemaShape[campo] = z.preprocess(
+			vazioParaUndefined,
+			obrigatorio ? schema : schema.optional(),
+		);
 	});
 
 	return z.object(schemaShape);
